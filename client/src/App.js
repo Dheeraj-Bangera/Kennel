@@ -1,23 +1,29 @@
 import logo from './logo.svg';
 import './App.css';
+import Home from "./component/navbar/Home"
+import { Route, Routes } from 'react-router-dom';
+import About from './component/navbar/About';
+import Work from './component/navbar/Work';
+import NotFound from './component/navbar/NotFound';
+import Navbar from './component/navbar/Navbar';
+import Login from './component/login/Login';
+import Signup from './component/login/Signup';
+import { useState } from 'react';
 
 function App() {
+  const [isLoggedIn,setIsLoggedIn]=useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App ">
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
+      <Routes>
+        <Route path="/" element={<div>{<Home />}</div>} />
+        <Route path="/About" element={<div>{<About />}</div>} />
+        <Route path="/Work" element={<div>{<Work />}</div>} />
+        <Route path="/Login" element={<div>{<Login />}</div>} />
+        <Route path="/Signup" element={<div>{<Signup />}</div>} />
+        <Route path="/Signup" element={<div>{<Signup />}</div>} />
+        <Route path="/*" element={<div>{<NotFound />}</div>} />
+      </Routes>
     </div>
   );
 }
