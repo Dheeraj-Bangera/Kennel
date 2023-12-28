@@ -33,15 +33,15 @@ const userSchema= new mongoose.Schema(
         },
         post:[{
             type:mongoose.Types.ObjectId,
-            ref:"post"
+            ref:"Post"
         }],
         adopted_animal:[{
             type:mongoose.Types.ObjectId,
-            ref:"post"
+            ref:"Post"
         }],
         comments:[{
             type:mongoose.Types.ObjectId,
-            ref:"comment"
+            ref:"Comment"
         }],
         date:{
             type:Date,
@@ -51,4 +51,4 @@ const userSchema= new mongoose.Schema(
         
     }
 )
-module.exports = mongoose.model("user",userSchema)
+module.exports = mongoose.model("User",userSchema)

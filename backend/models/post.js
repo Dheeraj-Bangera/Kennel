@@ -30,16 +30,16 @@ const postSchema = new mongoose.Schema({
   },
   user:{
     type:mongoose.Types.ObjectId,
-    ref:"user",
+    ref:"User",
     required:true
   },
   adopted_by:{
     type:mongoose.Types.ObjectId,
-    ref:"user",
+    ref:"User",
   },
   comments:[{
     type:mongoose.Types.ObjectId,
-    ref:"comments",
+    ref:"Comments",
   }],
   date:{
     type:Date,
