@@ -5,7 +5,6 @@ const auth = async(req,res,next)=>{
     try{
         const cookie = req.cookies.token
         if(!cookie){
-            console.log("cookie not found")
           res.status(401).json({"auth_message":"unauthorized"})
         }
         else {

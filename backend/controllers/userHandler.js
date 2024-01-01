@@ -108,24 +108,21 @@ const getUserHandler = async (req, res) => {
 };
 const updateHandler = async (req, res) => {
   try {
-    const field = req.body.field;
-    const data = req.body.data;
+    const data = req.body
     const cookie = req.cookies.token;
     const verify = jwt.verify(cookie, process.env.JWT_SECRET_KEY);
-    let updateQuery = {};
-    updateQuery[field] = data;
     if (verify) {
       var decoded = jwt.decode(cookie);
 
-      let user = await User.findByIdAndUpdate(decoded.id, updateQuery);
+      let user = await User.findByIdAndUpdate(decoded.id, data);
       if(!user){
         return res.json({
-          message:"no user found",
+          message:"error in updating the given fields",
           succes:"false"
         })
       }
       res.send(user);
-    } else {
+    } else { 
       res.status(401).json({
         message: "unauthorized",
         succes: "false",
