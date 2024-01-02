@@ -1,7 +1,7 @@
 import React from 'react'
 import LoginImg from "../../assets/login.png"
 
-const Template = () => {
+const Template = (image,formtype,setIsLoggedIn) => {
   return (
     <div>
       {formtype==="signup"?(<SignupForm/>):(<LoginForm/>)}
