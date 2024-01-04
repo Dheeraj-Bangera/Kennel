@@ -9,12 +9,14 @@ import Navbar from './component/Navbar';
 import Login from './component/login/Login';
 import Signup from './component/login/Signup';
 import { useState } from 'react';
+import SignupForm1 from './component/login/SignupForm1';
 
 function App() {
   const [isLoggedIn,setIsLoggedIn]=useState(false);
   return (
-    <div className="bg-[#FEFAE0] h-screen">
+    <div className="bg-[#FEFAE0]  h-screen">
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
+      {/* <SignupForm1/> */}
       <Routes>
         <Route path="/" element={<div>{<Home />}</div>} />
         <Route path="/About" element={<div>{<About />}</div>} />

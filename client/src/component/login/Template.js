@@ -1,35 +1,28 @@
-import React from 'react'
-import LoginImg from "../../assets/login.png"
+import React from "react";
+import LoginImg from "../../assets/login.png";
+import LoginForm from "./LoginForm";
+import SignUpForm from "./SignupForm1"
 
-const Template = (image,formtype,setIsLoggedIn) => {
+const Template = ({ image, formtype, setIsLoggedIn }) => {
   return (
     <div>
-      {formtype==="signup"?(<SignupForm/>):(<LoginForm/>)}
+      {formtype === "signup" ? <SignUpForm /> : <LoginForm />}
+
+      <div></div>
+
+      <div></div>
+      <p>OR</p>
+      <div></div>
+
+      <button>
+        <p>Sign Up with Google</p>
+      </button>
 
       <div>
-        
+        <img src={LoginImg} alt="logo" loading="lazy" />
+      </div>
     </div>
+  );
+};
 
-    <div></div>
-    <p>OR</p>
-    <div></div>
-
-    <button>
-        <p>Sign Up with Google </p>
-    </button>
-
-    <div>
-      <img src={LoginImg}
-      alt='logo'
-      loading='lazy'/>
-
-    </div>
-
-
-    </div>
-
-    
-  )
-}
-
-export default Template
+export default Template;

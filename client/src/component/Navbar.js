@@ -49,7 +49,7 @@ const Navbar = (props) => {
 
         <div className='flex space-x-3 font-bold items-center'>
           {!isLoggedIn && (
-            <NavLink to='Login' className='hover:text-gray-500'>
+            <NavLink to='/Login' className='hover:text-gray-500'>
               <button>Login</button>
             </NavLink>
           )}
