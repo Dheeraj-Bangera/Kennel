@@ -9,7 +9,7 @@ import Navbar from './component/Navbar';
 import Login from './component/login/Login';
 import Signup from './component/login/Signup';
 import { useState } from 'react';
-import SignupForm1 from './component/login/SignupForm1';
+import SignupForm1 from './component/login/SignupForm';
 
 function App() {
   const [isLoggedIn,setIsLoggedIn]=useState(false);

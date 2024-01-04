@@ -1,7 +1,7 @@
 import React from "react";
 import LoginImg from "../../assets/login.png";
 import LoginForm from "./LoginForm";
-import SignUpForm from "./SignupForm1"
+import SignUpForm from "./SignupForm"
 
 const Template = ({ image, formtype, setIsLoggedIn }) => {
   return (
