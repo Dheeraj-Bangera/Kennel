@@ -1,15 +1,16 @@
-import React from "react";
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaCircleInfo } from "react-icons/fa6";
 import { IoIosEye, IoIosEyeOff } from "react-icons/io";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 const USER_REGEX = /^[a-zA-Z\s.'-]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const CONTACT_REGEX = /^\+(?:[0-9] ?){6,14}[0-9]$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const SIGNUP_URL = "/user/signup";
 
-const SignupForm1 = () => {
+const SignupForm = () => {
   const userRef = useRef();
   const errRef = useRef();
 
@@ -17,7 +18,7 @@ const SignupForm1 = () => {
 
   const [user, setUser] = useState("");
   const [validName, setValidName] = useState(false);
-  const [userFocus, setUserFocus] = useState(false); //to check wheter we have focus on thar input field or not
+  const [userFocus, setUserFocus] = useState(false);
 
   const [pwd, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
@@ -36,7 +37,7 @@ const SignupForm1 = () => {
   const [emailFocus, setEmailFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false); //to check wheter we have succesfully subited the form
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     userRef.current.focus();
@@ -44,15 +45,11 @@ const SignupForm1 = () => {
 
   useEffect(() => {
     const result = USER_REGEX.test(user);
-    console.log(result);
-    console.log(user);
     setValidName(result);
   }, [user]);
 
   useEffect(() => {
     const result = PWD_REGEX.test(pwd);
-    console.log(result);
-    console.log(pwd);
     setValidPwd(result);
     const match = pwd === matchPwd;
     setValidMatch(match);
@@ -70,16 +67,49 @@ const SignupForm1 = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if button enabled with JS hack
+
     const v1 = USER_REGEX.test(user);
     const v2 = PWD_REGEX.test(pwd);
+
     if (!v1 || !v2) {
       setErrMsg("Invalid Entry");
       return;
     }
-    console.log(user, pwd);
-    setSuccess(true);
-    
+
+    try {
+      const response = await axios.post(
+        SIGNUP_URL,
+        JSON.stringify({
+          name: user,
+          password: pwd,
+          email: email,
+          phoneNumber: phoneNumber,
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      console.log(response?.data);
+      console.log(response?.accessToken);
+      console.log(JSON.stringify(response));
+      setSuccess(true);
+    } catch (err) {
+      console.error("Registration error:", err);
+
+      if (axios.isAxiosError(err)) {
+        if (!err.response) {
+          setErrMsg("No Server Response");
+        } else {
+          setErrMsg("Registration Failed");
+        }
+      } else {
+        setErrMsg("An unexpected error occurred during registration");
+      }
+
+      errRef.current.focus();
+    }
   };
 
   return (
@@ -88,7 +118,7 @@ const SignupForm1 = () => {
         <section>
           <h1>Success!</h1>
           <p>
-            <a href="#">Sign In</a>
+          <NavLink to="/Login">Log In</NavLink>
           </p>
         </section>
       ) : (
@@ -100,7 +130,6 @@ const SignupForm1 = () => {
           >
             {errMsg}
           </p>
-          {/* //to display any error message */}
           <form onSubmit={handleSubmit}>
             <label htmlFor="name">
               <p>
@@ -195,7 +224,7 @@ const SignupForm1 = () => {
               </p>
             </label>
 
-            {/* create and confirm password */}
+
             <div>
               <label htmlFor="password">
                 <p>
@@ -268,10 +297,7 @@ const SignupForm1 = () => {
               </label>
             </div>
 
-            <button
-            >
-              Sign Up
-            </button>
+            <button>Sign Up</button>
           </form>
           <p>
             Already registered?
@@ -286,4 +312,4 @@ const SignupForm1 = () => {
   );
 };
 
-export default SignupForm1;
+export default SignupForm;
