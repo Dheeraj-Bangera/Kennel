@@ -118,16 +118,12 @@ const SignupForm = () => {
         <section>
           <h1>Success!</h1>
           <p>
-          <NavLink to="/Login">Log In</NavLink>
+            <NavLink to="/Login">Log In</NavLink>
           </p>
         </section>
       ) : (
-        <div>
-          <p
-            ref={errRef}
-            className={errMsg ? "errmsg" : "offscreen"}
-            aria-live="assertive"
-          >
+        <div className="flex items-center justify-center flex-col">
+          <p ref={errRef} className={errMsg ? "errmsg" : "hidden"}>
             {errMsg}
           </p>
           <form onSubmit={handleSubmit}>
@@ -141,27 +137,26 @@ const SignupForm = () => {
                 id="name"
                 ref={userRef}
                 autoComplete="off"
-                name="name"
                 onChange={(e) => setUser(e.target.value)}
                 placeholder="Enter name"
-                aria-invalid={validName ? "false" : "true"}
-                aria-describedby="uidnote"
                 onFocus={() => setUserFocus(true)}
                 onBlur={() => setUserFocus(false)}
+                className=""
               />
-              <p
-                id="uidnote"
-                className={
-                  userFocus && user && !validName ? "instructions" : "offscreen"
-                }
+              <div
+                className={`flex bg-[#3A6944]/10 w-[50%] ${
+                  userFocus && user && !validName ? "" : "hidden"
+                }`}
               >
-                <FaCircleInfo />
-                4 to 24 characters.
-                <br />
-                Must begin with a letter.
-                <br />
-                Letters allowed only.
-              </p>
+                <p>
+                  <FaCircleInfo />
+                  4 to 24 characters.
+                  <br />
+                  Must begin with a letter.
+                  <br />
+                  Letters allowed only.
+                </p>
+              </div>
             </label>
             <label>
               <p>
@@ -173,23 +168,21 @@ const SignupForm = () => {
                 name="phoneNumber"
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="Enter Phone number"
-                aria-invalid={validPhoneNumber ? "false" : "true"}
-                aria-describedby="phoneNote"
                 onFocus={() => setPhoneNumberFocus(true)}
                 onBlur={() => setPhoneNumberFocus(false)}
               />
-
-              <p
-                id="phoneNote"
-                className={
+              <div
+                className={`flex bg-[#3A6944]/10 w-[50%] ${
                   phoneNumberFocus && phoneNumber && !validPhoneNumber
-                    ? "instructions"
-                    : "offscreen"
-                }
+                    ? ""
+                    : "hidden"
+                }`}
               >
-                <FaCircleInfo />
-                10 numbers only.
-              </p>
+                <p>
+                  <FaCircleInfo />
+                  10 numbers only.
+                </p>
+              </div>
             </label>
             <label>
               <p>
@@ -201,29 +194,20 @@ const SignupForm = () => {
                 name="email"
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter Email Address"
-                aria-invalid={validEmail ? "false" : "true"}
-                aria-describedby="emailNote"
                 onFocus={() => setEmailFocus(true)}
                 onBlur={() => setEmailFocus(false)}
               />
-
-              <p
-                id="emailNote"
-                className={
-                  emailFocus && email && !validEmail
-                    ? "instructions"
-                    : "offscreen"
-                }
+              <div
+                className={`flex bg-[#3A6944]/10 w-[50%] ${
+                  emailFocus && email && !validEmail ? "" : "hidden"
+                }`}
               >
-                {emailFocus && email && !validEmail && (
-                  <>
-                    <FaCircleInfo />
-                    Format: xyz@domain.com
-                  </>
-                )}
-              </p>
+                <p>
+                  <FaCircleInfo />
+                  Format: xyz@domain.com
+                </p>
+              </div>
             </label>
-
 
             <div>
               <label htmlFor="password">
@@ -236,8 +220,6 @@ const SignupForm = () => {
                   type={showPassword ? "text" : "password"}
                   onChange={(e) => setPwd(e.target.value)}
                   value={pwd}
-                  aria-invalid={validPwd ? "false" : "true"}
-                  aria-describedby="pwdnote"
                   onFocus={() => setPwdFocus(true)}
                   onBlur={() => setPwdFocus(false)}
                   placeholder="Enter Password"
@@ -245,26 +227,26 @@ const SignupForm = () => {
                 <span onClick={() => setShowPassword((prev) => !prev)}>
                   {showPassword ? <IoIosEye /> : <IoIosEyeOff />}
                 </span>
-
-                <p
-                  id="pwdnote"
-                  className={
-                    pwdFocus && !validPwd ? "instructions" : "offscreen"
-                  }
+                <div
+                  className={`flex bg-[#3A6944]/10 w-[50%] ${
+                    pwdFocus && !validPwd ? "" : "hidden"
+                  }`}
                 >
-                  <FaCircleInfo />
-                  8 to 24 characters.
-                  <br />
-                  Must include uppercase and lowercase letters, a number and a
-                  special character.
-                  <br />
-                  Allowed special characters:{" "}
-                  <span aria-label="exclamation mark">!</span>{" "}
-                  <span aria-label="at symbol">@</span>{" "}
-                  <span aria-label="hashtag">#</span>{" "}
-                  <span aria-label="dollar sign">$</span>{" "}
-                  <span aria-label="percent">%</span>
-                </p>
+                  <p>
+                    <FaCircleInfo />
+                    8 to 24 characters.
+                    <br />
+                    Must include uppercase and lowercase letters, a number and a
+                    special character.
+                    <br />
+                    Allowed special characters:{" "}
+                    <span aria-label="exclamation mark">!</span>{" "}
+                    <span aria-label="at symbol">@</span>{" "}
+                    <span aria-label="hashtag">#</span>{" "}
+                    <span aria-label="dollar sign">$</span>{" "}
+                    <span aria-label="percent">%</span>
+                  </p>
+                </div>
               </label>
               <label>
                 <p>
@@ -276,24 +258,22 @@ const SignupForm = () => {
                   onChange={(e) => setMatchPwd(e.target.value)}
                   value={matchPwd}
                   placeholder="Confirm Password"
-                  aria-invalid={validMatch ? "false" : "true"}
-                  aria-describedby="confirmnote"
                   onFocus={() => setMatchFocus(true)}
                   onBlur={() => setMatchFocus(false)}
                 />
                 <span onClick={() => setShowPassword((prev) => !prev)}>
                   {showPassword ? <IoIosEye /> : <IoIosEyeOff />}
                 </span>
-
-                <p
-                  id="confirmnote"
-                  className={
-                    matchFocus && !validMatch ? "instructions" : "offscreen"
-                  }
+                <div
+                  className={`flex bg-[#3A6944]/10 w-[50%] ${
+                    matchFocus && !validMatch ? "" : "hidden"
+                  }`}
                 >
-                  <FaCircleInfo />
-                  Must match the first password input field.
-                </p>
+                  <p>
+                    <FaCircleInfo />
+                    Must match the first password input field.
+                  </p>
+                </div>
               </label>
             </div>
 
