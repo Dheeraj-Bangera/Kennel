@@ -113,7 +113,7 @@ const SignupForm = () => {
   };
 
   return (
-    <div>
+    <div >
       {success ? (
         <section>
           <h1>Success!</h1>
@@ -128,7 +128,7 @@ const SignupForm = () => {
           </p>
           <form onSubmit={handleSubmit}>
             <label htmlFor="name">
-              <p>
+              <p className="font-semibold	">
                 Name <sup>*</sup>
               </p>
               <input
@@ -141,7 +141,7 @@ const SignupForm = () => {
                 placeholder="Enter name"
                 onFocus={() => setUserFocus(true)}
                 onBlur={() => setUserFocus(false)}
-                className=""
+                className="w-[100%] rounded-lg m-2 text-black p-1"
               />
               <div
                 className={`flex bg-[#3A6944]/10 w-[50%] ${
@@ -159,7 +159,7 @@ const SignupForm = () => {
               </div>
             </label>
             <label>
-              <p>
+              <p  className="font-semibold	">
                 Phone Number <sup>*</sup>
               </p>
               <input
@@ -170,6 +170,7 @@ const SignupForm = () => {
                 placeholder="Enter Phone number"
                 onFocus={() => setPhoneNumberFocus(true)}
                 onBlur={() => setPhoneNumberFocus(false)}
+                className="w-[100%] rounded-lg m-2 text-black p-1"
               />
               <div
                 className={`flex bg-[#3A6944]/10 w-[50%] ${
@@ -185,7 +186,7 @@ const SignupForm = () => {
               </div>
             </label>
             <label>
-              <p>
+              <p className="font-semibold	">
                 Email Address <sup>*</sup>
               </p>
               <input
@@ -196,6 +197,7 @@ const SignupForm = () => {
                 placeholder="Enter Email Address"
                 onFocus={() => setEmailFocus(true)}
                 onBlur={() => setEmailFocus(false)}
+                className="w-[100%] rounded-lg m-2 text-black p-1"
               />
               <div
                 className={`flex bg-[#3A6944]/10 w-[50%] ${
@@ -211,7 +213,7 @@ const SignupForm = () => {
 
             <div>
               <label htmlFor="password">
-                <p>
+                <p className="font-semibold	">
                   Create Password <sup>*</sup>
                 </p>
                 <input
@@ -223,6 +225,7 @@ const SignupForm = () => {
                   onFocus={() => setPwdFocus(true)}
                   onBlur={() => setPwdFocus(false)}
                   placeholder="Enter Password"
+                  className="w-[100%] rounded-lg m-2 text-black p-1"
                 />
                 <span onClick={() => setShowPassword((prev) => !prev)}>
                   {showPassword ? <IoIosEye /> : <IoIosEyeOff />}
@@ -249,7 +252,7 @@ const SignupForm = () => {
                 </div>
               </label>
               <label>
-                <p>
+                <p className="font-semibold	">
                   Confirm Password <sup>*</sup>
                 </p>
                 <input
@@ -260,6 +263,7 @@ const SignupForm = () => {
                   placeholder="Confirm Password"
                   onFocus={() => setMatchFocus(true)}
                   onBlur={() => setMatchFocus(false)}
+                  className="w-[100%] rounded-lg m-2 text-black p-1"
                 />
                 <span onClick={() => setShowPassword((prev) => !prev)}>
                   {showPassword ? <IoIosEye /> : <IoIosEyeOff />}
