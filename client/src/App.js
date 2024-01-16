@@ -8,12 +8,13 @@ import NotFound from "./component/pages/NotFound";
 import Navbar from "./component/Navbar";
 import Login from "./component/login/Login";
 import Signup from "./component/login/Signup";
+import Footer from "./component/Footer";
 import { useState } from "react";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
-    <div className="bg-[#FEFAE0] h-full ">
+    <div className="bg-[#FEFAE0]  ">
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
 
       <Routes>
@@ -24,6 +25,7 @@ function App() {
         <Route path="/Signup" element={<div>{<Signup />}</div>} />
         <Route path="/*" element={<div>{<NotFound />}</div>} />
       </Routes>
+      <Footer/>
     </div>
   );
 }

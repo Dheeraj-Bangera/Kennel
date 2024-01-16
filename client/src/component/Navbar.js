@@ -4,6 +4,7 @@ import logo from '../assets/logo.png';
 import { toast } from 'react-hot-toast';
 import { GiHamburgerMenu, GiCancel } from 'react-icons/gi';
 
+
 const Navbar = (props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   let isLoggedIn = props.isLoggedIn;
