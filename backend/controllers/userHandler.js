@@ -81,48 +81,45 @@ const loginHandler = async (req, res) => {
 };
 const getUserHandler = async (req, res) => {
   try {
-    const cookie = req.cookies.token;
-    const verify = jwt.verify(cookie, process.env.JWT_SECRET_KEY);
-    if (verify) {
-      var decoded = jwt.decode(cookie);
-    
-      const user = await User.findOne({ email: decoded.email });
-      if(!user){
-        return res.json({
-          message:"no user found",
-          succes:"false"
-        })
-      }
-      delete user._doc.password;
-
-      res.json(user._doc);
-    } else {
+    const id = req.body.userData.id;
+    if (!id) {
       res.status(401).json({
         message: "unauthorized",
         succes: "false",
       });
     }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.json({
+        message: "no user found",
+        succes: "false",
+      });
+    }
+    delete user._doc.password;
+
+    res.json(user._doc);
   } catch (err) {
     console.log("Error", err);
   }
 };
 const updateHandler = async (req, res) => {
   try {
-    const data = req.body
-    const cookie = req.cookies.token;
-    const verify = jwt.verify(cookie, process.env.JWT_SECRET_KEY);
-    if (verify) {
-      var decoded = jwt.decode(cookie);
+    const data = req.body;
+ 
+    const id = req.body.userData.id
+    if (id) {
+      
 
-      let user = await User.findByIdAndUpdate(decoded.id, data);
-      if(!user){
+      let user = await User.findByIdAndUpdate(id, data);
+      if (!user) {
         return res.json({
-          message:"error in updating the given fields",
-          succes:"false"
-        })
+          message: "error in updating the given fields",
+          succes: "false",
+        });
       }
       res.send(user);
-    } else { 
+    } else {
       res.status(401).json({
         message: "unauthorized",
         succes: "false",
@@ -134,21 +131,21 @@ const updateHandler = async (req, res) => {
 };
 const deleteHandler = async (req, res) => {
   try {
-    const cookie = req.cookies.token;
-    const verify = jwt.verify(cookie, process.env.JWT_SECRET_KEY);
-    if (verify) {
-      var decoded = jwt.decode(cookie);
-      const user = await User.findByIdAndDelete(decoded.id)   
-      if(!user){
+    const id = req.body.userData.id
+
+    if (id) {
+      
+      const user = await User.findByIdAndDelete(id);
+      if (!user) {
         return res.json({
-          message:"no user found",
-          succes:"false"
-        })
+          message: "no user found",
+          succes: "false",
+        });
       }
       res.json({
         message: "account deleted successfully",
         succes: "true",
-      })
+      });
     } else {
       res.status(401).json({
         message: "unauthorized",
@@ -159,4 +156,10 @@ const deleteHandler = async (req, res) => {
     console.log("Error", err);
   }
 };
-module.exports = { signupHandler, loginHandler, getUserHandler, updateHandler,deleteHandler };
+module.exports = {
+  signupHandler,
+  loginHandler,
+  getUserHandler,
+  updateHandler,
+  deleteHandler,
+};

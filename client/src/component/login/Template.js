@@ -1,7 +1,7 @@
 import React from "react";
 import LoginImg from "../../assets/login.png";
 import LoginForm from "./LoginForm";
-import SignUpForm from "./SignupForm";
+import SignUpForm from "./SignUpForm";
 import { FcGoogle } from "react-icons/fc";
 import { NavLink } from "react-router-dom";
 

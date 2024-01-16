@@ -10,7 +10,7 @@ const CONTACT_REGEX = /^\+(?:[0-9] ?){6,14}[0-9]$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const SIGNUP_URL = "/user/signup";
 
-const SignupForm = () => {
+const SignUpForm = () => {
   const userRef = useRef();
   const errRef = useRef();
 
@@ -299,4 +299,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default SignUpForm;

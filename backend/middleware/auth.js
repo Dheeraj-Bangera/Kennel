@@ -12,7 +12,8 @@ const auth = async(req,res,next)=>{
             if(!verify){ 
                 return res.json({"auth_message":"unauthorized"}).status(401)
             }
-           
+            req.body.userData = verify
+            console.log(req.body.userData)
             next()
 
         }

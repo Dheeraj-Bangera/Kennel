@@ -1,0 +1,17 @@
+{
+  "name": "kennel",
+  "version": "1.0.0",
+  "description": "<h1>Kennel</h1>\r <h4>Setup:</h4><br>\r <ul>\r <li>npm i</li>\r <li>npm run dev for server</li>\r <li>npm start</li>\r </ul><br>\r <h4>ENV FILES:</h4><br>\r PORT<br>\r MONGO_URL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently -n \"server,client\" -c \"bgYellow,bgBlue\" \"npm run start:backend\" \"npm run start:client\"",
+    "start:backend": "cd backend && npm run dev", 
+    "start:client": "cd client && npm start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

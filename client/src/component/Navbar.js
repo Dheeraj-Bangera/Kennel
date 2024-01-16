@@ -14,7 +14,7 @@ const Navbar = (props) => {
   }
 
   return (
-    <div className=''>
+    
       <nav className='flex justify-between items-s w-[92%] mx-auto'>
         <div>
           <NavLink to='/'>
@@ -85,7 +85,7 @@ const Navbar = (props) => {
           )}
         </div>
       </nav>
-    </div>
+
   );
 };
 
