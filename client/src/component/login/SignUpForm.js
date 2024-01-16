@@ -122,7 +122,7 @@ const SignupForm = () => {
           </p>
         </section>
       ) : (
-        <div className="flex items-center justify-center flex-col mt-9">
+        <div className=" mt-9">
           <p ref={errRef} className={errMsg ? "errmsg" : "hidden"}>
             {errMsg}
           </p>
@@ -289,7 +289,7 @@ const SignupForm = () => {
               </label>
             </div>
 
-            <button className=" bg-[#3A6944]/30 sm:w-40 md:w-52 lg:w-64    p-1 rounded-lg
+            <button className=" bg-[#3A6944]/30  lg:w-64  w-[90%]  p-1 rounded-lg
              hover: bg-[#3A6944]/70  font-medium m-2 transition-transform transform hover:scale-105">Sign Up</button>
           </form>
          

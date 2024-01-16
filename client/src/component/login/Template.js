@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 const Template = ({ formtype, setIsLoggedIn }) => {
   return (
     <div className="  flex justify-center items-center m-3">
-      <div className="grid grid-cols-1  sm: grid-cols-2 bg-[#3A6944]/30 rounded-xl w-[50%] m-4">
+      <div className="grid grid-cols-1  sm:grid-cols-2 bg-[#3A6944]/30 rounded-xl w-5/6 lg:w-[50%] m-4 ">
         <div className=" h-full  hidden sm:block ">
           <img
             src={LoginImg}
