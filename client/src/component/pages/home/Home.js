@@ -1,6 +1,7 @@
 import React from "react";
 
-import Card from "./card";
+import Card from "./Card";
+import Work from "./Work"
 
 import dog from "../../../assets/dog.png";
 import cat from "../../../assets/cat.png";
@@ -29,9 +30,9 @@ const Home = () => {
   ];
 
   return (
-    <div className="bg-[#FEFAE0] h-screen">
+    <div className="bg-[#FEFAE0] h-full">
       <Quote/>
-      <div className="flex flex-col items-center  h-screen ">
+      <div className="flex flex-col items-center ">
         <div className="flex gap-4 ">
           {cards.map((card, index) => (
             <div key={index}>
@@ -40,6 +41,7 @@ const Home = () => {
           ))}
         </div>
       </div>
+      <Work/>
     </div>
   );
 };
