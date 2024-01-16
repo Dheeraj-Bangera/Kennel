@@ -1,10 +1,12 @@
 import React from 'react'
+import Template from './Template'
 
-const Signup = () => {
+const Signup = ({setIsLoggedIn}) => {
   return (
-    <div>
-      
-    </div>
+    <Template
+    formtype="signup"
+    setIsLoggedIn={setIsLoggedIn}
+    />
   )
 }
 

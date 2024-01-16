@@ -4,7 +4,12 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'knewave': ['Knewave', 'system-ui'],
+        'noto-sans': ['Noto Sans', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
-}
+};

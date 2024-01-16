@@ -23,7 +23,7 @@ const Navbar = (props) => {
         </div>
 
         <div
-          className={`md:static absolute bg-[#FEFAE0] min-h-[60vh] md:min-h-fit
+          className={`md:static absolute bg-[#FEFAE0] min-h-[40vh] md:min-h-fit
          md:w-auto left-0 top-[-100%] w-full flex justify-center items-center ${
            isMenuOpen ? 'top-[9%]' : ''
          }`}
@@ -49,7 +49,7 @@ const Navbar = (props) => {
 
         <div className='flex space-x-3 font-bold items-center'>
           {!isLoggedIn && (
-            <NavLink to='Login' className='hover:text-gray-500'>
+            <NavLink to='/Login' className='hover:text-gray-500'>
               <button>Login</button>
             </NavLink>
           )}

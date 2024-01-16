@@ -2,7 +2,6 @@
 <h4>Setup:</h4><br>
 <ul>
 <li>npm i</li>
-<li>npm run dev for server</li>
 <li>npm start</li>
 </ul><br>
 <h4>ENV FILES:</h4><br>
