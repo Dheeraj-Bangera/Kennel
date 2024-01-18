@@ -26,7 +26,7 @@ const FlipCardList = () => {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-x-28 gap-y-4  ">
+    <div className="grid grid-cols-2 gap-x-28 gap-y-4 select-none  ">
       {cards.map((card) => (
         <FlipCard key={card.id} question={card.question} answer={card.answer} />
       ))}
