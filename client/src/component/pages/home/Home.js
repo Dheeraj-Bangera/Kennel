@@ -10,7 +10,7 @@ import firstaid from "../../../assets/firstaid.png";
 import statics from "../../../assets/statistics.png";
 import location from "../../../assets/location.png";
 import Quote from "./Quote";
-
+import Adopt from "./Adopt"
 const Home = () => {
   const cards = [
     {
@@ -43,6 +43,7 @@ const Home = () => {
         </div>
       </div>
       <Work/>
+      <Adopt/>
     </div>
   );
 };
