@@ -6,12 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently -n \"server,client\" -c \"bgYellow,bgBlue\" \"npm run start:backend\" \"npm run start:client\"",
-    "start:backend": "cd backend && npm run dev", 
+    "start:backend": "cd backend && npm run dev",
     "start:client": "cd client && npm start"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "framer-motion": "^10.18.0"
   }
 }

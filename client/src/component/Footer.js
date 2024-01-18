@@ -7,7 +7,7 @@ const Footer = () => {
     const Year = new Date().getFullYear();
 
     return (
-        <footer className="flex flex-row items-end justify-end bg-[#3A6944]  text-white">
+        <footer className="flex flex-row items-end justify-end bg-[#3A6944] h-fit text-white">
             <div className="overflow-hidden">
                 <svg data-name="Layer 1"
                   xmlns="http://www.w3.org/2000/svg" 
