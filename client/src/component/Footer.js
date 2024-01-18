@@ -75,7 +75,7 @@ const Footer = () => {
                 </div>
 
                 <div className="">
-                    <div className="h-full flex items-center justify-center mt-4 mb-5">
+                    <div className="h-full flex items-center justify-center mt-4 mb-3">
                         <form className="w-96 relative">
                             <input type="email" placeholder=""
                                 className="w-full text-gray-800 p-4 h-10 rounded-full focus:outline-none 
@@ -83,7 +83,7 @@ const Footer = () => {
                             <button
                                 type="Submit"
                                 className=" bg-[#B99470] px-8 py-2 rounded-full text-black
-                                 absolute top-0 right-0"
+                                 absolute top-0  right-0"
                                 >
                                 Submit
                             </button>

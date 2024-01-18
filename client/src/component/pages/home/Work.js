@@ -11,20 +11,21 @@ const Work = () => {
           <img src={doggie} className="md:h-52 md:w-60 h-52 w-48" alt="Doggie" />
         </div>
         <div className='flex flex-col'>
-          <p className='mb-4 text-normal font-noto-sans'>
-            ipsum dolor sit amet, consectetur <br />adipiscing elit. Donec in
-            nibh<br /> sed odio porttitor sollicitudin ut <br />id turpis. V
-            estibulum ante ipsum primis <br />in faucibus orci luctus et
+          <p className='mb-4 text-xl font-noto-sans'>
+          "We connect cats and dogs with <br></br>
+          loving homes through our website, <br></br>
+          facilitating joyful adoptions for furry <br></br>companions."
           </p>
         </div>
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-x-36'>
        
         <div className='flex flex-col'>
-          <p className='text-normal font-noto-sans'>
-          ipsum dolor sit amet, consectetur <br />adipiscing elit. Donec in
-            nibh<br /> sed odio porttitor sollicitudin ut <br />id turpis. V
-            estibulum ante ipsum primis <br />in faucibus orci luctus et
+          <p className='text-xl font-noto-sans'>
+          "We offer valuable resources, including<br></br>
+           nearby veterinary information, adoption<br></br>
+            center details, and essential first aid<br></br>
+             information for your pets' well-being."
           </p>
         </div>
         <div className='flex items-center justify-center'>
