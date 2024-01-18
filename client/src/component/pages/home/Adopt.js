@@ -9,9 +9,9 @@ const Adopt = () => {
       <h1 className='text-4xl font-bold font-noto-sans hover:underline'>
         Why you should Adopt?
       </h1>
-      <img src={tounge} alt="figma" className='mt-4' />
+      <img src={tounge} alt="figma" className='mt-4 select-none' />
       <div className='flex gap-4 mt-2'>
-        <div className='w-96 h-96 rounded-lg bg-[#3A6944]/20 p-10'>
+        <div className='w-96 h-96 rounded-lg bg-[#3A6944]/20 p-4 select-none'>
           <Swipe />
         </div>
         <div className=' rounded-lg w-[35%]'>

@@ -39,4 +39,25 @@
     height: 100%;
     object-fit: cover;
   }
-  
+  .swiper-button-next { 
+    background-image: url(../../../../assets/paw.png);
+    background-repeat: no-repeat;
+    background-size: 170% auto;
+    transform: rotate(90deg);
+    background-position: center; }
+  .swiper-button-next::after {
+    display: none;
+  }
+  .swiper-button-prev{
+    background-image: url(../../../../assets/paw.png);
+    background-repeat: no-repeat;
+    background-size: 170% auto;
+    transform: rotate(-90deg);
+    background-position: center;
+  }
+  .swiper-button-prev::after {
+    display: none;
+  }
+  .swiper-pagination-bullet-active {
+    background-color: #000 !important;
+}
