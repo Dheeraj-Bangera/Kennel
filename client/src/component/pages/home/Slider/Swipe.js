@@ -16,7 +16,7 @@ import "./styles.css";
 // import required modules
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 
-export default function App() {
+export default function Swipe() {
   return (
     <>
       <Swiper

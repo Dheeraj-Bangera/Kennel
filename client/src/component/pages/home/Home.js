@@ -37,7 +37,7 @@ const Home = () => {
       <div className="flex flex-col items-center ">
         <div className="flex gap-4 ">
           {cards.map((card, index) => (
-            <div key={index}>
+            <div  classname= " select-none"key={index}>
               <Card img={card.img} />
             </div>
           ))}
