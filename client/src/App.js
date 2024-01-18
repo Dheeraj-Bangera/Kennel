@@ -14,7 +14,7 @@ import { useState } from "react";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
-    <div className="bg-[#FEFAE0]  ">
+    <div className="bg-[#FEFAE0] h-full ">
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
 
       <Routes>
