@@ -15,6 +15,7 @@ const SignUpForm = () => {
   const errRef = useRef();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [user, setUser] = useState("");
   const [validName, setValidName] = useState(false);
@@ -38,6 +39,16 @@ const SignUpForm = () => {
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const [clicking, setClicking] = useState(false);
+
+  const handleMouseDown = () => {
+    setClicking(true);
+  };
+
+  const handleMouseUp = () => {
+    setClicking(false);
+  };
 
   useEffect(() => {
     userRef.current.focus();
@@ -229,8 +240,8 @@ const SignUpForm = () => {
                 />
                 <span
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="cursor-pointer absolute  right-1 top-10 flex items-center 
-      justify-center w-10 text-black rounded-r-sm"
+                  className="cursor-pointer absolute   right-0  top-8	  flex items-center 
+                        justify-center w-10 text-black rounded-r-sm"
                 >
                   {showPassword ? <IoIosEye /> : <IoIosEyeOff />}
                 </span>
@@ -270,11 +281,11 @@ const SignUpForm = () => {
                   className="sm:w-40 md:w-52 lg:w-64  rounded-lg m-2 text-black p-1"
                 />
                 <span
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  className="cursor-pointer absolute  right-1 top-10 flex items-center 
-                 justify-center w-10 text-black rounded-r-sm"
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  className="cursor-pointer absolute  right-0  top-8	  flex items-center 
+      justify-center w-10 text-black rounded-r-sm"
                 >
-                  {showPassword ? <IoIosEye /> : <IoIosEyeOff />}
+                  {showConfirmPassword ? <IoIosEye /> : <IoIosEyeOff />}
                 </span>
                 <div
                   className={`flex bg-[#3A6944]/10 sm:w-40 md:w-52 lg:w-64   ${
@@ -289,10 +300,17 @@ const SignUpForm = () => {
               </label>
             </div>
 
-            <button className=" bg-[#3A6944]/30  lg:w-64  w-[90%]  p-1 rounded-lg
-             hover: bg-[#3A6944]/70  font-medium m-2 transition-transform transform hover:scale-105">Sign Up</button>
+            <button
+              className={`bg-[#3A6944]/30 lg:w-64 w-[90%] p-1 rounded-lg font-medium m-2 
+              transition-transform transform hover:scale-95 ${
+                clicking ? "transition-transform transform hover:scale-105" : ""
+              }`}
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+            >
+              Sign Up
+            </button>
           </form>
-         
         </div>
       )}
     </div>

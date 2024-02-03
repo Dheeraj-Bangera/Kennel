@@ -9,6 +9,7 @@ module.exports = {
         'knewave': ['Knewave', 'system-ui'],
         'noto-sans': ['Noto Sans', 'sans-serif'],
       },
+        
     },
   },
   plugins: [],
