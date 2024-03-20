@@ -1,0 +1,277 @@
+[33mcommit bbe2415fffe43c576656fa8bfb3c62d439456244[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Sat Feb 3 21:38:12 2024 +0530
+
+    eye corrected
+
+[33mcommit b8f83326fffb0245a82a0e153276fbb987e2bae2[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Fri Jan 19 01:46:52 2024 +0530
+
+    about us added
+
+[33mcommit 2e7a00fdba581cdc8a9583a552d75cd0b15ca9f0[m
+Merge: 884e5d3 c7a2f48
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Fri Jan 19 01:24:17 2024 +0530
+
+    Merge branch 'main' of https://github.com/Muskan-1003/Kennel
+
+[33mcommit 884e5d3cfb133dbae044c3d97bc052434edcaee0[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Fri Jan 19 01:22:45 2024 +0530
+
+    about us added
+
+[33mcommit c7a2f486e3185e8411e92ce5137e4f221c4f7d24[m
+Merge: f2c56ca 124da9c
+Author: Muskan Pandey <muskanpandey1003@gmail.com>
+Date:   Fri Jan 19 01:19:40 2024 +0530
+
+    Merge pull request #8 from Dheeraj-Bangera/main
+    
+    paw in swiper added
+
+[33mcommit 124da9c1fbdd8604d76147807167e5a4d422bd35[m
+Author: dheeraj <bangeradheeraj8@gmail.com>
+Date:   Fri Jan 19 01:17:34 2024 +0530
+
+    paw in swiper added
+
+[33mcommit 42ef46746a40ba74474d814297eba19888625238[m
+Merge: af6c897 f2c56ca
+Author: dheeraj <bangeradheeraj8@gmail.com>
+Date:   Thu Jan 18 23:39:03 2024 +0530
+
+    Merge branch 'main' of https://github.com/Dheeraj-Bangera/Kennel
+
+[33mcommit af6c897d23646610a03d5c4c020574879989eacb[m
+Author: dheeraj <bangeradheeraj8@gmail.com>
+Date:   Thu Jan 18 23:38:59 2024 +0530
+
+    message
+
+[33mcommit f2c56ca8bf6c4ac070ad24b4307d3895b85c594c[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Thu Jan 18 22:37:18 2024 +0530
+
+    landing page
+
+[33mcommit 5a8bd07fc75c0da5b23eb0a08e28d2fd65da1329[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Thu Jan 18 15:53:26 2024 +0530
+
+    blob
+
+[33mcommit 18762add5efe9a07b53adc8cf47ea3bca26e5f00[m
+Merge: f0bd61f ab65364
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Wed Jan 17 05:22:10 2024 +0530
+
+    Merge branch 'main' of https://github.com/Muskan-1003/Kennel
+
+[33mcommit f0bd61fbbf35b1cc502f04b4cdeb412e85b15d92[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Wed Jan 17 05:20:56 2024 +0530
+
+    fotter
+
+[33mcommit ab65364322a03743747002bb5c8fcab965abdc13[m
+Merge: c7636a4 ea736ea
+Author: Muskan Pandey <muskanpandey1003@gmail.com>
+Date:   Wed Jan 17 00:42:14 2024 +0530
+
+    Merge pull request #7 from Dheeraj-Bangera/main
+    
+    Merge pull request #1 from Muskan-1003/main
+
+[33mcommit ea736eacc2783fe49403c6eece3b4828c93eda51[m
+Merge: 814bf03 c7636a4
+Author: Dheeraj Bangera <114220695+Dheeraj-Bangera@users.noreply.github.com>
+Date:   Wed Jan 17 00:40:56 2024 +0530
+
+    Merge pull request #1 from Muskan-1003/main
+    
+    Merge pull request #6 from Dheeraj-Bangera/main
+
+[33mcommit c7636a4509f2343afadc3037fd125be08afe7d64[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Wed Jan 17 00:40:34 2024 +0530
+
+    work
+
+[33mcommit 8d743b69332ffebff5fc4b615d4e2f393fb6d57e[m
+Merge: fdbc701 814bf03
+Author: Muskan Pandey <muskanpandey1003@gmail.com>
+Date:   Wed Jan 17 00:39:41 2024 +0530
+
+    Merge pull request #6 from Dheeraj-Bangera/main
+    
+    Post handlers and concurrently setup done
+
+[33mcommit 814bf036dee114ac038db6822929a1b933fe674f[m
+Author: dheeraj <bangeradheeraj8@gmail.com>
+Date:   Wed Jan 17 00:36:00 2024 +0530
+
+    solved the bug of wrongly labeling SignUpForm in client folder
+
+[33mcommit 386b817fac96c1471ac60c0e486bc99a6b722e86[m
+Merge: ffc55e7 5187bdf
+Author: dheeraj <bangeradheeraj8@gmail.com>
+Date:   Wed Jan 17 00:24:34 2024 +0530
+
+    Merge branch 'main' of https://github.com/Dheeraj-Bangera/Kennel
+
+[33mcommit ffc55e7e2ecda05a388ad93c877fce379e855642[m
+Author: dheeraj <bangeradheeraj8@gmail.com>
+Date:   Wed Jan 17 00:24:05 2024 +0530
+
+    all post routes and handlers added except search functionality and concurrently added
+
+[33mcommit 5187bdf6a18804c4158332d96af841500d8cb119[m
+Author: Dheeraj Bangera <114220695+Dheeraj-Bangera@users.noreply.github.com>
+Date:   Wed Jan 17 00:21:03 2024 +0530
+
+    Update README.md
+
+[33mcommit fdbc7018555e90e1042dc5d3dea13717d52b3907[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Tue Jan 16 23:43:29 2024 +0530
+
+    home
+
+[33mcommit a0f3d180207a5f12970374b48537b7aa0e69b06e[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Tue Jan 16 21:41:43 2024 +0530
+
+    home
+
+[33mcommit 1f706a08297df7d55b12ff67cbb14e9a4323255c[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Tue Jan 16 00:47:26 2024 +0530
+
+    signup
+
+[33mcommit 7b121e4018e660ac5dd2671fef1b124692049ccb[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Mon Jan 15 23:41:14 2024 +0530
+
+    signup
+
+[33mcommit 4d71efac10ebe79b2a09b793e90beab48bd6be7e[m
+Merge: 645895b e38980f
+Author: Muskan Pandey <muskanpandey1003@gmail.com>
+Date:   Mon Jan 15 21:52:10 2024 +0530
+
+    Merge pull request #5 from Dheeraj-Bangera/main
+    
+    create post handler added
+
+[33mcommit e38980f02ea1999c9e3e88951899d51a01ea46c3[m
+Merge: 2820cc1 645895b
+Author: Dheeraj Bangera <114220695+Dheeraj-Bangera@users.noreply.github.com>
+Date:   Mon Jan 15 12:49:41 2024 +0530
+
+    Merge branch 'Muskan-1003:main' into main
+
+[33mcommit 645895bb162d7795a1e6cb932b75930f6cf03e9c[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Thu Jan 11 22:31:28 2024 +0530
+
+    ui
+
+[33mcommit c4a76343ce0b518aa8c8ea3ba961127d9a19249e[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Fri Jan 5 19:03:44 2024 +0530
+
+    auth added
+
+[33mcommit 6138e5f60efa43f0cb663ceba0ad6a33bfe9e6b9[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Thu Jan 4 23:40:04 2024 +0530
+
+    sign up import change
+
+[33mcommit 03cf34946ceba41023dff78294e0a5814a5e2c3a[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Thu Jan 4 23:30:16 2024 +0530
+
+    sign up added
+
+[33mcommit 2820cc1b81b040569ab31c5cb874b0802b885385[m
+Author: dheeraj <bangeradheeraj8@gmail.com>
+Date:   Thu Jan 4 04:31:45 2024 +0530
+
+    create post handler added
+
+[33mcommit 0cfc0cdac7230824731584856478c4eaaca12b3c[m
+Merge: 9f303c6 0550e60
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Wed Jan 3 05:23:41 2024 +0530
+
+    Merge branch 'main' of https://github.com/Muskan-1003/Kennel
+
+[33mcommit 9f303c69ae73bb6f35e9d2374380bee38d63f9bc[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Wed Jan 3 05:22:39 2024 +0530
+
+    nav responsive
+
+[33mcommit 0550e60a9102bb36350269e5754f91c5b6446fb9[m
+Merge: 55a6f4e e982023
+Author: Muskan Pandey <muskanpandey1003@gmail.com>
+Date:   Tue Jan 2 01:28:29 2024 +0530
+
+    Merge pull request #4 from Dheeraj-Bangera/main
+    
+    Post schema added
+
+[33mcommit e982023fe806a076e6d270bd3f34ce8aa60b5188[m
+Merge: 0ed6630 55a6f4e
+Author: Dheeraj Bangera <114220695+Dheeraj-Bangera@users.noreply.github.com>
+Date:   Tue Jan 2 00:44:11 2024 +0530
+
+    Merge branch 'Muskan-1003:main' into main
+
+[33mcommit 0ed6630a704b8361523b4ba0d637bf041aa90e16[m
+Author: dheeraj <bangeradheeraj8@gmail.com>
+Date:   Tue Jan 2 00:42:06 2024 +0530
+
+    post schema
+
+[33mcommit 55a6f4edf32231b74dd2e661bb035383488b327e[m
+Merge: 10a6a80 4417a10
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Thu Dec 28 22:10:43 2023 +0530
+
+    Merge branch 'main' of https://github.com/Muskan-1003/Kennel
+
+[33mcommit 10a6a80f53d63a8a11ca90ac7f240ea333c25040[m
+Author: Muskan-1003 <Muskanpandey1003@gmail.com>
+Date:   Thu Dec 28 22:07:50 2023 +0530
+
+    navbar
+
+[33mcommit 4417a10a9d92c61cfc1167e404bac1f49aa7ac06[m
+Merge: 7bb8e6d 13c6c75
+Author: Muskan Pandey <muskanpandey1003@gmail.com>
+Date:   Thu Dec 28 00:45:05 2023 +0530
+
+    Merge pull request #3 from Dheeraj-Bangera/main
+    
+    all user routes added
+
+[33mcommit 13c6c7521a859c44af91b27b17abbaa0e77d9790[m
+Author: dheeraj <bangeradheeraj8@gmail.com>
+Date:   Tue Dec 26 03:24:26 2023 +0530
+
+    all user routes added
+
+[33mcommit 7bb8e6d0e92be89c115802e032473781b2c71503[m
+Merge: 466fdaf d0e8d11
+Author: Muskan Pandey <muskanpandey1003@gmail.com>
+Date:   Mon Dec 4 17:04:06 2023 +0530
+
+    Merge pull request #2 from Dheeraj-Bangera/main
+    
+    

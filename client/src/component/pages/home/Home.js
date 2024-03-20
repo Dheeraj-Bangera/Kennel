@@ -12,6 +12,7 @@ import location from "../../../assets/location.png";
 import Quote from "./Quote";
 import Adopt from "./Adopt"
 import Team from "./Team"
+import Nav from "./Navbar"
 const Home = () => {
   const cards = [
     {
@@ -33,6 +34,7 @@ const Home = () => {
 
   return (
     <div className="bg-[#FEFAE0] h-full">
+      <Nav/>
       <Quote/>
       <div className="flex flex-col items-center ">
         <div className="flex gap-4 ">

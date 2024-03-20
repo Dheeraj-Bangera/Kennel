@@ -8,7 +8,8 @@ const USER_REGEX = /^[a-zA-Z\s.'-]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const CONTACT_REGEX = /^\+(?:[0-9] ?){6,14}[0-9]$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const SIGNUP_URL = "/user/signup";
+const SIGNUP_URL = "http://localhost:8080/user/signup";
+
 
 const SignUpForm = () => {
   const userRef = useRef();

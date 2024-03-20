@@ -15,3 +15,4 @@ userRouter.get("/get", auth, getUserHandler);
 userRouter.post("/update", auth, updateHandler);
 userRouter.get("/delete", auth, deleteHandler);
 module.exports = userRouter;
+

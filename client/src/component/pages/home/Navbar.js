@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logo from '../../../assets/logo.png';
 import { toast } from 'react-hot-toast';
 import { GiHamburgerMenu, GiCancel } from 'react-icons/gi';
 
@@ -41,7 +41,7 @@ const Navbar = (props) => {
               </NavLink>
             </li>
             <li>
-              <NavLink to='/About' className='hover:text-gray-500'>
+              <NavLink to='/#' className='hover:text-gray-500'>
                 About us
               </NavLink>
             </li>
