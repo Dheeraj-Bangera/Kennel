@@ -16,7 +16,7 @@ const Navbar = (props) => {
 
   return (
     
-      <nav className='flex justify-between items-s w-[92%] mx-auto'>
+      <nav className='flex justify-between  w-[92%] mx-auto'>
         <div>
           <NavLink to='/'>
             <img src={logo} alt='Kennel' className='w-36' />

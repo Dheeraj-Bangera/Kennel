@@ -11,21 +11,24 @@ import Signup from "./component/login/Signup";
 import Footer from "./component/Footer";
 import Feeds from "./component/pages/feeds/Main";
 import { useState } from "react";
-import Post from "./component/pages/feeds/Post"
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+  const isFeedsPage = location.pathname === "/feeds";
+
+
+
   return (
     <div className="bg-[#FEFAE0] h-full ">
-    
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+
       <Routes>
         <Route path="/" element={<div>{<Home />}</div>} />
        
         {/* <Route path="/Work" element={<div>{<Work />}</div>} /> */}
         <Route path="/Login" element={<div>{<Login />}</div>} />
         <Route path="/Signup" element={<div>{<Signup />}</div>} />
-        <Route path="/feeds" element={<div>{<Feeds />}</div>} />
-        <Route path="/add-post" element={<div>{<Post />}</div>} />
         <Route path="/*" element={<div>{<NotFound />}</div>} />
       </Routes>
       <Footer/>
