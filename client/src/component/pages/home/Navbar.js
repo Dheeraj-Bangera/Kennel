@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import {Link} from 'react-scroll';
 import logo from '../../../assets/logo.png';
 import { toast } from 'react-hot-toast';
 import { GiHamburgerMenu, GiCancel } from 'react-icons/gi';
@@ -31,19 +32,19 @@ const Navbar = (props) => {
         >
           <ul className='flex md:flex-row flex-col font-bold md:items-center md:gap-[4vw] gap-8'>
             <li>
-              <NavLink to='/' className='hover:text-gray-500'>
+              <NavLink to='/'  className='hover:text-gray-500'>
                 Home
               </NavLink>
             </li>
             <li>
-              <NavLink to='/Work' className='hover:text-gray-500'>
-                Our Work
-              </NavLink>
+            <Link to='work' spy={true} smooth={true} offset={50} duration={500} className='hover:text-gray-500'>
+              Our Work
+            </Link>
             </li>
             <li>
-              <NavLink to='/#' className='hover:text-gray-500'>
-                About us
-              </NavLink>
+            <Link to='about' spy={true} smooth={true} offset={-100} duration={500} className='hover:text-gray-500'>
+              About us
+            </Link>
             </li>
           </ul>
         </div>

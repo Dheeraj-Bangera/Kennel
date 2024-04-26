@@ -45,9 +45,9 @@ const Home = () => {
           ))}
         </div>
       </div>
-      <Work/>
-      <Adopt/>
-      <Team/>
+      <Work id="work" />
+      <Adopt />
+      <Team id="about" />
     </div>
   );
 };
