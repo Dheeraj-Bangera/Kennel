@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import {Link} from 'react-scroll';
+import logo from '../../../assets/logo.png';
 import { toast } from 'react-hot-toast';
 import { GiHamburgerMenu, GiCancel } from 'react-icons/gi';
 
@@ -16,7 +17,7 @@ const Navbar = (props) => {
 
   return (
     
-      <nav className='flex justify-between items-s w-[92%] mx-auto'>
+      <nav className='flex justify-between  w-[92%] mx-auto'>
         <div>
           <NavLink to='/'>
             <img src={logo} alt='Kennel' className='w-36' />
@@ -31,19 +32,19 @@ const Navbar = (props) => {
         >
           <ul className='flex md:flex-row flex-col font-bold md:items-center md:gap-[4vw] gap-8'>
             <li>
-              <NavLink to='/' className='hover:text-gray-500'>
+              <NavLink to='/'  className='hover:text-gray-500'>
                 Home
               </NavLink>
             </li>
             <li>
-              <NavLink to='/Work' className='hover:text-gray-500'>
-                Our Work
-              </NavLink>
+            <Link to='work' spy={true} smooth={true} offset={50} duration={500} className='hover:text-gray-500'>
+              Our Work
+            </Link>
             </li>
             <li>
-              <NavLink to='/About' className='hover:text-gray-500'>
-                About us
-              </NavLink>
+            <Link to='about' spy={true} smooth={true} offset={-100} duration={500} className='hover:text-gray-500'>
+              About us
+            </Link>
             </li>
           </ul>
         </div>

@@ -27,7 +27,7 @@ const FlipCard = ({ question, answer }) => {
           transition={{ duration: 0.2, animationDirection: "normal" }}
           
         >
-          <div className="flip-card-front text-2xl font-knewave w-[100%] h-[100%] bg-cover border-2 rounded-lg p-4">
+          <div className="flip-card-front text-2xl font-[Knewave] w-[100%] h-[100%] bg-cover border-2 rounded-lg p-4">
             <p>{question}</p>
           </div>
           <div className="flip-card-back text-base font-noto-sans w-[100%] h-[100%] bg-cover border-2 rounded-lg p-4">

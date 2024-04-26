@@ -4,7 +4,7 @@ import girl from "../../../assets/girl.png";
 
 const Work = () => {
   return (
-    <div className='flex items-center justify-center flex-col mt-10'>
+    <div className='flex items-center justify-center flex-col mt-10' id="work">
       <h1 className='text-4xl font-bold font-noto-sans hover:underline'>Our Work</h1>
       <div className='grid grid-cols-1 md:grid-cols-2 items-center justify-between gap-x-60 m-8'>
         <div className='flex items-center justify-center'>

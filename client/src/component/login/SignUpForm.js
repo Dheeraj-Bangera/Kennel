@@ -3,6 +3,8 @@ import { FaCircleInfo } from "react-icons/fa6";
 import { IoIosEye, IoIosEyeOff } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
+// import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const USER_REGEX = /^[a-zA-Z\s.'-]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -10,11 +12,13 @@ const CONTACT_REGEX = /^\+(?:[0-9] ?){6,14}[0-9]$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const SIGNUP_URL =process.env.REACT_APP_BACKEND_BASE_URL+"/user/signup";
 
+
 const SignUpForm = () => {
   const userRef = useRef();
   const errRef = useRef();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [user, setUser] = useState("");
   const [validName, setValidName] = useState(false);
@@ -38,6 +42,16 @@ const SignUpForm = () => {
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const [clicking, setClicking] = useState(false);
+
+  const handleMouseDown = () => {
+    setClicking(true);
+  };
+
+  const handleMouseUp = () => {
+    setClicking(false);
+  };
 
   useEffect(() => {
     userRef.current.focus();
@@ -64,6 +78,42 @@ const SignUpForm = () => {
     const result = CONTACT_REGEX.test(phoneNumber);
     setValidPhoneNumber(result);
   }, [phoneNumber]);
+
+
+  const [loading, setLoading] = useState(false);
+  const [otpClick, setOtpClick] = useState(false);
+
+
+  const otpClickHandler = async (e) => {
+    setLoading(true);
+    const otpData = {
+      email: email,
+    };
+
+    try {
+      // Make the OTP request
+      await axios.post("http://localhost:8080/api/auth/getotp", otpData);
+      // If successful, show toast and set otpClick to true
+      toast("OTP sent successfully");
+      setOtpClick(true);
+    } catch (error) {
+      // If there is an error, handle it
+      if (error.response && error.response.status === 400) {
+        // Handle 400 response here
+        toast(error.message);
+        setErrMsg("Invalid Entry");
+      } else {
+        // Handle other errors here
+        toast(error);
+        console.error("An error occurred:", error);
+      }
+    } finally {
+      // Ensure loading is set to false, regardless of success or failure
+      setLoading(false);
+    }
+  };
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -224,8 +274,8 @@ const SignUpForm = () => {
                 />
                 <span
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="cursor-pointer absolute  right-1 top-10 flex items-center 
-      justify-center w-10 text-black rounded-r-sm"
+                  className="cursor-pointer absolute   right-0  top-8	  flex items-center 
+                        justify-center w-10 text-black rounded-r-sm"
                 >
                   {showPassword ? <IoIosEye /> : <IoIosEyeOff />}
                 </span>
@@ -265,11 +315,11 @@ const SignUpForm = () => {
                   className="sm:w-40 md:w-52 lg:w-64  rounded-lg m-2 text-black p-1"
                 />
                 <span
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  className="cursor-pointer absolute  right-1 top-10 flex items-center 
-                 justify-center w-10 text-black rounded-r-sm"
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  className="cursor-pointer absolute  right-0  top-8	  flex items-center 
+      justify-center w-10 text-black rounded-r-sm"
                 >
-                  {showPassword ? <IoIosEye /> : <IoIosEyeOff />}
+                  {showConfirmPassword ? <IoIosEye /> : <IoIosEyeOff />}
                 </span>
                 <div
                   className={`flex bg-[#3A6944]/10 sm:w-40 md:w-52 lg:w-64   ${
@@ -284,14 +334,26 @@ const SignUpForm = () => {
               </label>
             </div>
 
-            <button className=" bg-[#3A6944]/30  lg:w-64  w-[90%]  p-1 rounded-lg
-             hover: bg-[#3A6944]/70  font-medium m-2 transition-transform transform hover:scale-105">Sign Up</button>
+   
+            <button
+              className={`bg-[#3A6944]/30 lg:w-64 w-[90%] p-1 rounded-lg font-bold m-2 
+              transition-transform transform hover:scale-95   ${
+                clicking ? "transition-transform transform hover:scale-105" : ""
+              }`}
+              onClick={otpClickHandler}
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+            >
+               Generate OTP
+            </button>
+
+   
           </form>
-         
         </div>
       )}
     </div>
   );
+
 };
 
 export default SignUpForm;

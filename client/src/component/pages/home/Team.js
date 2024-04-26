@@ -3,7 +3,7 @@ import paws_team from '../../../assets/paws_team.png';
 
 const Team = () => {
   return (
-    <div className='flex items-center justify-center flex-col mt-16'>
+    <div className='flex items-center justify-center flex-col mt-16' id="about">
       <h1 className='text-4xl font-bold font-noto-sans hover:underline'>About Us</h1>
       <div className='grid grid-cols-1 md:grid-cols-2 items-center mt-4'>
         <div className='flex items-center justify-center'>

@@ -29,11 +29,11 @@ const Template = ({ formtype, setIsLoggedIn }) => {
 
           <button
             className="bg-[#3A6944]/20 sm:w-40 md:w-52 lg:w-64   p-1 rounded-lg
-               font-medium mx-auto flex items-center justify-center"
+               font-medium mx-auto flex items-center justify-center mt-2"
           >
             <FcGoogle className="text-3xl m" />
-
-            <p>Sign Up with Google</p>
+            {formtype=="signup"?<p>Sign Up with Google</p>:<p>Sign in with Google</p>}
+            
           </button>
           {formtype === "signup" ? (
             <p className="flex items-center font-medium flex-col mt-3 gap-1">
