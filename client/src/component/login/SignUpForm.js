@@ -3,6 +3,8 @@ import { FaCircleInfo } from "react-icons/fa6";
 import { IoIosEye, IoIosEyeOff } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
+// import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const USER_REGEX = /^[a-zA-Z\s.'-]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -76,6 +78,42 @@ const SignUpForm = () => {
     const result = CONTACT_REGEX.test(phoneNumber);
     setValidPhoneNumber(result);
   }, [phoneNumber]);
+
+
+  const [loading, setLoading] = useState(false);
+  const [otpClick, setOtpClick] = useState(false);
+
+
+  const otpClickHandler = async (e) => {
+    setLoading(true);
+    const otpData = {
+      email: email,
+    };
+
+    try {
+      // Make the OTP request
+      await axios.post("http://localhost:8080/api/auth/getotp", otpData);
+      // If successful, show toast and set otpClick to true
+      toast("OTP sent successfully");
+      setOtpClick(true);
+    } catch (error) {
+      // If there is an error, handle it
+      if (error.response && error.response.status === 400) {
+        // Handle 400 response here
+        toast(error.message);
+        setErrMsg("Invalid Entry");
+      } else {
+        // Handle other errors here
+        toast(error);
+        console.error("An error occurred:", error);
+      }
+    } finally {
+      // Ensure loading is set to false, regardless of success or failure
+      setLoading(false);
+    }
+  };
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -301,21 +339,26 @@ const SignUpForm = () => {
               </label>
             </div>
 
+   
             <button
-              className={`bg-[#3A6944]/30 lg:w-64 w-[90%] p-1 rounded-lg font-medium m-2 
-              transition-transform transform hover:scale-95 ${
+              className={`bg-[#3A6944]/30 lg:w-64 w-[90%] p-1 rounded-lg font-bold m-2 
+              transition-transform transform hover:scale-95   ${
                 clicking ? "transition-transform transform hover:scale-105" : ""
               }`}
+              onClick={otpClickHandler}
               onMouseDown={handleMouseDown}
               onMouseUp={handleMouseUp}
             >
-              Sign Up
+               Generate OTP
             </button>
+
+   
           </form>
         </div>
       )}
     </div>
   );
+
 };
 
 export default SignUpForm;
