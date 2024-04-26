@@ -39,7 +39,7 @@ const DropDown = () => {
   ));
 
   return (
-    <div className="relative">
+    <div className="relative z-10">
       <div
         className="flex items-center gap-2 border border-gray-300 rounded-full py-3 px-4 cursor-pointer bg-[var(--primary-bg)]/30"
         onClick={toggleDropdown}
@@ -48,7 +48,7 @@ const DropDown = () => {
         <FaUser className="h-6 w-6 text-gray-300 border border-gray-300 rounded-full" />
       </div>
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-[#3A6944]/30 border border-black select-none rounded shadow-lg">
+        <div className="absolute right-0 mt-2 w-48 bg-[#3A6944]/50 border border-black select-none rounded shadow-lg">
           <div className="absolute top-0 right-4 w-0 h-0 border-4 border-solid border-gray-300 border-t-0 border-r-0"></div>
           <ul>
             {menuItemsJSX}
