@@ -7,4 +7,4 @@ postRouter.post("/create",auth, createPostHandler);
 postRouter.get('/get/:id',getPostHandler);
 postRouter.post("/update",auth, updatePostHandler);
 postRouter.post("/delete/:id",auth, deletePostHandler);
-module.exports = postRouter; 
+module.exports = postRouter;    

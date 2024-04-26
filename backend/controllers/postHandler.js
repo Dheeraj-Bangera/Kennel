@@ -27,9 +27,10 @@ const createPostHandler = async (req, res) => {
         .json({ message: "User not found", success: false });
     }
     // Image Upload
+    console.log(image)
     const uploadedImage = await cloudinary.uploader.upload(image.tempFilePath, {
       folder: "kennel_post_images",
-      resource_type: "auto",
+      resource_type: "auto",   
       quality: 20,
     });
     if (!uploadedImage) {

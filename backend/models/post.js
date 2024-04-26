@@ -9,17 +9,17 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  gender:{
-    type:Boolean,
+  gender: {
+    type: Boolean,
     required: true,
   },
-  image:{
+  image: {
     type: String,
   },
   description: {
     type: String,
   },
-  breed:{
+  breed: {
     type: String,
   },
   address: {
@@ -28,21 +28,24 @@ const postSchema = new mongoose.Schema({
   city: {
     type: String,
   },
-  user:{
-    type:mongoose.Types.ObjectId,
-    ref:"User",
-    required:true
+  user: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
-  adopted_by:{
-    type:mongoose.Types.ObjectId,
-    ref:"User",
+  adopted_by: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
   },
-  comments:[{
-    type:mongoose.Types.ObjectId,
-    ref:"Comments",
-  }],
-  date:{
-    type:Date,
-  }
+  comments: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Comments",
+    },
+  ],
+  tags: [{ type: String }],
+  date: {
+    type: Date,
+  },
 });
 module.exports = mongoose.model("post", postSchema);

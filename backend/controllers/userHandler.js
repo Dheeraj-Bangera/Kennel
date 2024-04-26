@@ -8,7 +8,6 @@ const signupHandler = async (req, res) => {
     const email = req.body.email;
     const password = await bcrypt.hash(req.body.password, 10);
     const phoneNo = req.body.phoneNumber;
-    // console.log(name,email,password);
 
     const findUser = await User.findOne({ phoneNumber: phoneNo });
     if (name == "" || email == "" || password == "" || phoneNo == null) {
