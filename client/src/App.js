@@ -11,6 +11,7 @@ import Footer from "./component/Footer";
 import Feeds from "./component/pages/feeds/Main";
 import Post from "./component/pages/feeds/Post";
 import OTP from "./component/login/OTP";
+import Profile from "./component/pages/user/Profile";
 import { useState } from "react";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/Signup/OTP" element={<OTP />} />
         <Route path="/feeds" element={<Feeds />} />
         <Route path="/add-post" element={<Post />} />
+        <Route path="/user/:activepage" element={<Profile />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
       {!isOTPPage && <Footer />}
