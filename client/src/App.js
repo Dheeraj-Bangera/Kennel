@@ -5,12 +5,12 @@ import { Route, Routes } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 import NotFound from "./component/pages/NotFound";
-import Login from "./component/login/Login";
-import Signup from "./component/login/Signup";
+import Login from "./component/auth/Login";
+import Signup from "./component/auth/Signup";
 import Footer from "./component/Footer";
 import Feeds from "./component/pages/feeds/Main";
 import Post from "./component/pages/feeds/Post";
-import OTP from "./component/login/OTP";
+import OTP from "./component/auth/OTP";
 import Profile from "./component/pages/user/Profile";
 import { useState } from "react";
 
