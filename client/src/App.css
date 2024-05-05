@@ -1,3 +1,18 @@
 *{padding: 0;
 margin: 0; }
 
+.tooltip {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+  }
+  
+  .tooltip:hover {
+    visibility: visible;
+  }
+  

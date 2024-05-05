@@ -1,7 +1,7 @@
 // NotFound.js
 
 import React from 'react';
-import dog from '../../assets/404.png'
+import dog from '../assets/404.png'
 
 const NotFound = () => {
   return (

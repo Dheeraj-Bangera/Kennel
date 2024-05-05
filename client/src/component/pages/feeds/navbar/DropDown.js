@@ -14,7 +14,7 @@ const DropDown = () => {
   };
 
   const menuItems = [
-    { text: "Profile", icon: <FaHouseUser className="h-5 w-5 mr-2" />, path: "/profile" },
+    { text: "Profile", icon: <FaHouseUser className="h-5 w-5 mr-2" />, path: "/user/accountsettings" },
     { text: "Add Post", icon: <FaPlus className="h-5 w-5 mr-2" />, path: "/add-post" },
     { text: "Team", icon: <AiOutlineTeam className="h-5 w-5 mr-2" />, path: "/team" },
     { text: "Github", icon: <FaGithub className="h-5 w-5 mr-2" />, path: "https://github.com/Muskan-1003/Kennel" }, // External link

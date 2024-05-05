@@ -4,7 +4,7 @@ import Home from "./component/pages/home/Home";
 import { Route, Routes } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-import NotFound from "./component/pages/NotFound";
+import NotFound from "./component/NotFound";
 import Login from "./component/auth/Login";
 import Signup from "./component/auth/Signup";
 import Footer from "./component/Footer";
