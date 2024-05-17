@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
-
-
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import twoPaws from "../../../../assets/two-paws.png";
-import dogBone from "../../../../assets/dogBone.png"
-import catFood from "../../../../assets/catfood.png"
+import dogBone from "../../../../assets/dogBone.png";
+import catFood from "../../../../assets/catfood.png";
 import carrot from "../../../../assets/carrot.png";
 import "./styles.css";
 
 function Card({
+  id,
   animal,
   animal_name,
   city,
@@ -18,20 +18,14 @@ function Card({
   gender,
 }) {
   const [adopted, setAdopted] = useState(false);
- 
+  const navigate = useNavigate();
 
   const clickHandler = () => {
     setAdopted(true);
+    setTimeout(() => {
+      navigate(`/pet/${id}`);
+    }, 2000); // 2000 milliseconds = 2 seconds
   };
-  useEffect(() => {
-    if (adopted) {
-      setTimeout(() => {
-        // Redirect to another page after 2 seconds
-        window.location.href = "/feeds/edovsdin"; // Change "/redirect-page" to your desired page
-      }, 2000); // Delay in milliseconds (2000ms = 2 seconds)
-    }
-  }, [adopted]);
-
 
   let adoptionItem;
   switch (animal) {
@@ -56,50 +50,49 @@ function Card({
         </div>
       )}
 
-      <div className="max-w-sm rounded-xl overflow-hidden shadow-lg m-8 ">
+      <div className="max-w-sm rounded-xl overflow-hidden shadow-lg m-8">
         <div className={`${adopted ? 'filter blur-sm' : ''}`}>
-
-        <div className="relative">
-          <div
-            className={`absolute bottom-0 left-0 m-2 rounded-xl font-bold font-[Knewave] p-2 text-lg
-            ${
-              animal === "dog"
-                ? "bg-[#5F6F52]"
-                : animal === "cat"
-                ? "bg-[#B99470]"
-                : "bg-white"
-            }`}
-          >
-            {animal}
-          </div>
-
-          <img
-            className="w-full h-64 object-cover"
-            src={image}
-            alt={animal_name}
-          />
-        </div>
-
-        <div className="px-6 py-4">
-          <div className="flex items-center ml-5">
-            <div className="font-bold  right-14 font-[Shrikhand] text-2xl">
-              {animal_name}
+          <div className="relative">
+            <div
+              className={`absolute bottom-0 left-0 m-2 rounded-xl font-bold font-[Knewave] p-2 text-lg
+              ${
+                animal === "dog"
+                  ? "bg-[#5F6F52]"
+                  : animal === "cat"
+                  ? "bg-[#B99470]"
+                  : "bg-white"
+              }`}
+            >
+              {animal}
             </div>
-            <img src={twoPaws} alt="pawprint" className="right-[0px] w-16 h-12 " />
+
+            <img
+              className="w-full h-64 object-cover"
+              src={image}
+              alt={animal_name}
+            />
           </div>
 
-          <p className="text-gray-700 text-base">Gender: {gender}</p>
-          <p className="text-gray-700 text-base">Breed: {breed}</p>
-          <p className="text-gray-700 text-base">
-            Location: {city}, {address}
-          </p>
-          <div className="text-gray-700 text-base">{description}</div>
-          <div className="mt-4 flex items-center justify-center">
-            <button className="bg-black hover:bg-slate-600 text-white rounded-full py-2 px-6" onClick={clickHandler}>
-              Adopt {animal_name}!
-            </button>
+          <div className="px-6 py-4">
+            <div className="flex items-center ml-5">
+              <div className="font-bold right-14 font-[Shrikhand] text-2xl">
+                {animal_name}
+              </div>
+              <img src={twoPaws} alt="pawprint" className="right-[0px] w-16 h-12 " />
+            </div>
+
+            <p className="text-gray-700 text-base">Gender: {gender}</p>
+            <p className="text-gray-700 text-base">Breed: {breed}</p>
+            <p className="text-gray-700 text-base">
+              Location: {city}, {address}
+            </p>
+            <div className="text-gray-700 text-base">{description}</div>
+            <div className="mt-4 flex items-center justify-center">
+              <button className="bg-black hover:bg-slate-600 text-white rounded-full py-2 px-6" onClick={clickHandler}>
+                Adopt {animal_name}!
+              </button>
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
