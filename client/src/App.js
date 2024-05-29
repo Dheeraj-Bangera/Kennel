@@ -4,13 +4,15 @@ import Home from "./component/pages/home/Home";
 import { Route, Routes } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-import NotFound from "./component/pages/NotFound";
-import Login from "./component/login/Login";
-import Signup from "./component/login/Signup";
+import NotFound from "./component/NotFound";
+import Login from "./component/auth/Login";
+import Signup from "./component/auth/Signup";
 import Footer from "./component/Footer";
 import Feeds from "./component/pages/feeds/Main";
 import Post from "./component/pages/feeds/Post";
-import OTP from "./component/login/OTP";
+import OTP from "./component/auth/OTP";
+import Profile from "./component/pages/user/Profile";
+import PetDetail from "./component/pages/feeds/cards/PetDetails";
 import { useState } from "react";
 
 function App() {
@@ -27,6 +29,8 @@ function App() {
         <Route path="/Signup/OTP" element={<OTP />} />
         <Route path="/feeds" element={<Feeds />} />
         <Route path="/add-post" element={<Post />} />
+        <Route path="/user/:activepage" element={<Profile />} />
+        <Route path="/pet/:id" element={<PetDetail/>} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
       {!isOTPPage && <Footer />}

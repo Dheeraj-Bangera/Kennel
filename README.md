@@ -1,4 +1,8 @@
+
+
 <h1>Kennel</h1>
+<p>Kennel is a pet adoption website  </p>
+
 <h4>Setup:</h4><br>
 <ul>
 <li>npm i</li>
