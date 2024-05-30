@@ -11,7 +11,7 @@ const FeedsNav = ({  }) => {
     <div className=" flex justify-between  w-[92%] mx-auto ">
       <div>
         <NavLink to="/feeds">
-          <img src={logo} alt="Kennel" className="w-36" />
+          <img src={logo} alt="Kennel" className="w-48" />
         </NavLink>
       </div>
       
@@ -24,7 +24,7 @@ const FeedsNav = ({  }) => {
               type="text"
               name="search"
               placeholder="Search the location..."
-              className="w-[100%] p-2 pr-3 pl-10 rounded-full  border-none ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2"
+              className="lg:w-96 w-44 p-2 pr-3 pl-10 rounded-full  border-none ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2"
             />
           </div>
         </div>
