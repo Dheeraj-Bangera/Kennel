@@ -4,10 +4,18 @@ const cardData = [
       animal: "dog",
       animal_name: "tommy",
       gender: "female",
-      image: "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
+      // image: "",
+      images: [
+        'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
+        'https://www.hindustantimes.com/ht-img/img/2023/08/25/1600x900/international_dog_day_1692974397743_1692974414085.jpg',
+        'https://www.hindustantimes.com/ht-img/img/2023/08/25/1600x900/international_dog_day_1692974397743_1692974414085.jpg',
+        'https://www.hindustantimes.com/ht-img/img/2023/08/25/1600x900/international_dog_day_1692974397743_1692974414085.jpg',
+        'https://www.hindustantimes.com/ht-img/img/2023/08/25/1600x900/international_dog_day_1692974397743_1692974414085.jpg'
+      ],
       description: "This is a female dog named tommy, she is cute and loves her toy dragon.",
       breed: "Labrador Retriever",
       address: "Thane west 123",
+      owner:"Mrs.Meena Deshmukh",
       city: "Mumbai"
     },
     {

@@ -14,7 +14,7 @@ function Card({
   address,
   breed,
   description,
-  image,
+  images,
   gender,
 }) {
   const [adopted, setAdopted] = useState(false);
@@ -50,7 +50,7 @@ function Card({
         </div>
       )}
 
-      <div className="max-w-sm rounded-xl overflow-hidden shadow-lg m-8">
+      <div className="max-w-sm  rounded-xl overflow-hidden shadow-lg m-8">
         <div className={`${adopted ? 'filter blur-sm' : ''}`}>
           <div className="relative">
             <div
@@ -68,14 +68,14 @@ function Card({
 
             <img
               className="w-full h-64 object-cover"
-              src={image}
+              src={images[0]}
               alt={animal_name}
             />
           </div>
 
           <div className="px-6 py-4">
-            <div className="flex items-center ml-5">
-              <div className="font-bold right-14 font-[Shrikhand] text-2xl">
+            <div className="flex items-center ml-0">
+              <div className="font-bold  font-[Shrikhand] text-2xl">
                 {animal_name}
               </div>
               <img src={twoPaws} alt="pawprint" className="right-[0px] w-16 h-12 " />
@@ -83,7 +83,7 @@ function Card({
 
             <p className="text-gray-700 text-base">Gender: {gender}</p>
             <p className="text-gray-700 text-base">Breed: {breed}</p>
-            <p className="text-gray-700 text-base">
+            <p className="text-gray-700 text-base overflow-hidden">
               Location: {city}, {address}
             </p>
             <div className="text-gray-700 text-base">{description}</div>

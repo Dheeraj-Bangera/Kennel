@@ -16,7 +16,7 @@ function CardsContainer() {
             address={item.address}
             breed={item.breed}
             description={item.description}
-            image={item.image}
+            images={item.images || [item.image]} // Pass images array or a single image wrapped in an array
             gender={item.gender}
           />
         ))}
