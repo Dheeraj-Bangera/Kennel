@@ -14,7 +14,7 @@ const createPostHandler = async (req, res) => {
     const image = req.files.image;
 
     // checking for valid data
-    if (animal == "" || animal_name == "" || gender === "") {
+    if (animal == "" || animal_name == "" || gender == "") {
       return res
         .status(204)
         .json({ message: "Please fill all required fields", success: false });

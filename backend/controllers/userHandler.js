@@ -1,41 +1,130 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const signupHandler = async (req, res) => {
+const OTP = require("../models/OTP");
+const otpGenerator =require("otp-generator")
+require("dotenv").config(); 
+const sendOtpHandler = async (req, res) => {
   try {
-    const name = req.body.name;
     const email = req.body.email;
-    const password = await bcrypt.hash(req.body.password, 10);
-    const phoneNo = req.body.phoneNumber;
 
-    const findUser = await User.findOne({ phoneNumber: phoneNo });
-    if (name == "" || email == "" || password == "" || phoneNo == null) {
-      res
-        .status(204)
-        .json({ message: "Please fill all fields", success: "false" });
-    }
-    if (findUser) {
-      res
-        .status(403)
-        .json({ message: "Email already exists", success: "false" });
-    } else {
-      const newUser = await User.create({
-        name: name,
-        password: password,
-        email: email,
-        phoneNumber: phoneNo,
-      });
-      res.json({
-        message: "Account created successfully",
-        succes: "true",
+    const user = await User.findOne({ email: email });
+    if (user) {
+      return res.status(403).json({
+        message: "user already exists",
+        success: false,
       });
     }
-  } catch (error) {
-    console.log("Error", error);
+    const otp = await otpGenerator.generate(6, {
+      lowerCaseAlphabets: false,
+      upperCaseAlphabets: false,
+      specialChars: false,
+    });
+
+    const createOtp = await OTP.create({
+      email: email,
+      otp: otp,
+    });
+    if (createOtp) {
+      return res.json({
+        otp: otp,
+        success: true,
+      });
+    } else console.log("error sending otp");
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send("Internal server error");
   }
 };
+const signupHandler = async (req, res) => {
+  try {
+    const { name, email, password: plainPassword, phoneNumber, otp } = req.body;
 
+    // Validate required fields
+    if (!name || !email || !plainPassword || !phoneNumber || !otp) {
+      return res.status(400).json({
+        message: "Please fill all fields",
+        success: false,
+      });
+    }
+
+    // Check if user with the given phone number already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(403).json({
+        message: "User with this email already exists",
+        success: false,
+      });
+    }
+
+    // Check if OTP is valid
+    const validOtp = await OTP.findOne({ email }).sort({ createdAt: -1 });
+    if (!validOtp) {
+      return res.status(400).json({
+        message: "No OTP found",
+        success: false,
+      });
+    } else if (otp !== validOtp.otp) {
+      return res.status(400).json({
+        message: "Invalid OTP",
+        success: false,
+      });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(plainPassword, 10);
+
+    // Create new user
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      phoneNumber,
+    });
+
+    if (!newUser) {
+      return res.status(500).json({
+        message: "Account creation failed",
+        success: false,
+      });
+    }
+
+    // Delete OTP after successful user creation
+    await OTP.deleteMany({ email });
+
+    // Create JWT token
+    const payload = {
+      id: newUser._id,
+      email: newUser.email,
+      name: newUser.name,
+    };
+    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
+
+    // Send response
+    return res
+      .cookie("token", token, {
+        expires: new Date(Date.now() + 1000 * 60 * 60),
+        httpOnly: true,
+        secure: true,
+        overwrite: true,
+        sameSite: "none"
+      })
+      .json({
+        message: "Account created successfully",
+        success: true,
+        user: {
+          name,
+          email,
+          phoneNumber,
+        },
+        token,
+      });
+
+  } catch (error) {
+    console.error("Error:", error.message);
+    return res.status(500).send("Internal server error");
+  }
+};
 const loginHandler = async (req, res) => {
   try {
     const email = req.body.email;
@@ -66,6 +155,11 @@ const loginHandler = async (req, res) => {
           .json({
             message: "Account verified",
             succes: "true",
+            user:{
+              name: user.name,
+              email:user.email,
+              token:token
+            },
           });
       } else {
         return res.sendStatus(403).json({
@@ -78,6 +172,8 @@ const loginHandler = async (req, res) => {
     console.log("Error", err);
   }
 };
+
+//
 const getUserHandler = async (req, res) => {
   try {
     const id = req.body.userData.id;
@@ -161,4 +257,5 @@ module.exports = {
   getUserHandler,
   updateHandler,
   deleteHandler,
+  sendOtpHandler
 };

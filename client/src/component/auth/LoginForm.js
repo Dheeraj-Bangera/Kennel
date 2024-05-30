@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { IoIosEye } from "react-icons/io";
 import { IoIosEyeOff } from "react-icons/io";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   function changeHandler(event) {
@@ -17,7 +18,14 @@ const LoginForm = () => {
       [event.target.name]: event.target.value,
     }));
   }
-
+ const loginHandler =async ()=>{
+  const res = await axios.post("http://localhost:8080/user/login", formData);
+  console.log(res)
+  if(res.status==200){
+    localStorage.setItem("token",res.data.token);
+    navigate("/feeds")
+  }
+ }
   return (
     <form>
       <label>
@@ -67,7 +75,8 @@ const LoginForm = () => {
       </label>
 
       <button className="bg-[#3A6944]/20 sm:w-40 md:w-52 lg:w-64   p-1 rounded-lg
-               font-medium mx-auto flex items-center justify-center mt-4 mb-2">
+               font-medium mx-auto flex items-center justify-center mt-4 mb-2"
+               onClick={loginHandler}>
         Login
       </button>
     </form>

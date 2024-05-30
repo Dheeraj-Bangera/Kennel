@@ -7,12 +7,8 @@ const cookieParser = require("cookie-parser")
 const fileupload= require("express-fileupload")
 const cloudinaryConnect = require("./config/cloudinary")
 require("dotenv").config()
-const cors = require("cors")
 const app = express()
-app.use(cors({
-    origin: 'http://localhost:3000/',
-    credentials: true,
-  }));
+app.use(cors());
 const bodyParser = require("body-parser")
 
 app.use(cookieParser())

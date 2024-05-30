@@ -13,7 +13,7 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const SIGNUP_URL =process.env.REACT_APP_BACKEND_BASE_URL+"/user/signup";
 
 
-const SignUpForm = () => {
+const SignUpForm = ({setOtpDisplay,setData}) => {
   const userRef = useRef();
   const errRef = useRef();
 
@@ -92,10 +92,18 @@ const SignUpForm = () => {
 
     try {
       // Make the OTP request
-      await axios.post("http://localhost:8080/api/auth/getotp", otpData);
-      // If successful, show toast and set otpClick to true
+      const signupdata={
+        email: email,
+        password: pwd,
+        name: user,
+        phoneNumber: phoneNumber,
+      }
+      const res = await axios.post("http://localhost:8080/user/sendOtp", otpData);
+      console.log(res)
       toast("OTP sent successfully");
-      setOtpClick(true);
+      setOtpDisplay(true);
+      setData(signupdata)
+      console.log("done")
     } catch (error) {
       // If there is an error, handle it
       if (error.response && error.response.status === 400) {
