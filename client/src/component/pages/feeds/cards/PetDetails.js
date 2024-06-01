@@ -1,28 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import cardData from "./CardsData";
-import PetNotFound from "../cards/PetNotFound";
-import { useState } from "react";
 import axios from "axios";
+import PetNotFound from "../cards/PetNotFound";
+import Loader from "../../../../component/Loader";
 
 function PetDetail() {
   const { id } = useParams();
-  const [pet, setpet] = useState(null)
-  const fetchpost = async () => {
-    const response = await axios.get(`http://localhost:8080/posts/get/${id}`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log(response.data);
-    setpet(response.data)
-  };
-  useEffect(() => {
-    
-    fetchpost()
- 
-  }, [])
+  const [pet, setPet] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  const fetchPost = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/posts/get/${id}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      console.log(response.data);
+      setPet(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching post data", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPost();
+  }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
@@ -37,6 +42,10 @@ function PetDetail() {
     setSelectedImage("");
   };
 
+  if (loading) {
+    return <Loader />;
+  }
+
   if (!pet) {
     return <PetNotFound />;
   }
@@ -50,7 +59,7 @@ function PetDetail() {
               className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-3 w-12"
               onClick={handleCloseModal}
             >
-             X
+              X
             </button>
             <img
               className="w-full h-full object-contain"
@@ -61,19 +70,19 @@ function PetDetail() {
         </div>
       )}
       {/* Banner Image Grid */}
-      <div className=" relative w-full overflow-hidden grid grid-cols-[2fr_1fr] gap-2 ">
+      <div className="relative w-full overflow-hidden grid grid-cols-[2fr_1fr] gap-2">
         {/* First image spans all columns */}
-        <div className=" h-[80vh]"  onClick={() => handleImageClick(pet.image[0])}>
+        <div className="h-[80vh]" onClick={() => handleImageClick(pet.image[0])}>
           <img
             className="object-cover"
             src={pet.image[0]}
             alt={`${pet.animal_name} 1`}
           />
         </div>
-        {/* Remaining image */}
+        {/* Remaining images */}
         <div className="col-span-1 grid grid-rows-3 gap-2 h-full">
           {pet.image.slice(1, 4).map((image, index) => (
-            <div key={index} className=" h-[30vh] " onClick={() => handleImageClick(image)}>
+            <div key={index} className="h-[30vh]" onClick={() => handleImageClick(image)}>
               <img
                 className="w-full h-full object-cover"
                 src={image}
@@ -94,29 +103,19 @@ function PetDetail() {
         <div className="md:flex md:justify-between">
           <div className="md:w-2/3 p-6 bg-white shadow-lg rounded-lg flex flex-wrap">
             <div className="w-full md:w-1/2 mb-4">
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                Gender
-              </h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Gender</h3>
               <p className="text-lg text-gray-700">{pet.gender}</p>
             </div>
             <div className="w-full md:w-1/2 mb-4">
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                Breed
-              </h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Breed</h3>
               <p className="text-lg text-gray-700">{pet.breed}</p>
             </div>
             <div className="w-full md:w-1/2 mb-4">
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                Location
-              </h3>
-              <p className="text-lg text-gray-700">
-                {pet.city}, {pet.address}
-              </p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Location</h3>
+              <p className="text-lg text-gray-700">{pet.city}, {pet.address}</p>
             </div>
             <div className="w-full md:w-1/2">
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                Description
-              </h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Description</h3>
               <p className="text-lg text-gray-700">{pet.description}</p>
             </div>
           </div>
@@ -128,7 +127,7 @@ function PetDetail() {
               <button className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-2">
                 Chat with Owner
               </button>
-              <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">
+              <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Adopt
               </button>
             </div>

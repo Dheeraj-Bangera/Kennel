@@ -4,13 +4,14 @@ import { MdCloudUpload } from "react-icons/md";
 import doogo from "../../../assets/dog.png";
 import cat from "../../../assets/cat.png";
 import Display from "./Display";
+import toast from "react-hot-toast";
 
 const Post = () => {
   const [formData, setFormData] = useState({
     animal: "",
     animal_name: "",
     gender: "",
-    image:[],
+    image: [],
     description: "",
     breed: "",
     address: "",
@@ -18,6 +19,9 @@ const Post = () => {
   });
 
   const [Img, setImg] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [clicking, setClicking] = useState(false);
+
   const {
     animal,
     animal_name,
@@ -31,16 +35,12 @@ const Post = () => {
 
   const handleChange = (e) => {
     if (e.target.name === "image") {
-      console.log("handlechange called")
       setFormData({ ...formData, [e.target.name]: [...image, e.target.files[0]] });
-      setImg([...Img,  e.target.files[0]]);
+      setImg([...Img, e.target.files[0]]);
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
-    console.log(formData);
   };
-
-  const [clicking, setClicking] = useState(false);
 
   const handleMouseDown = () => {
     setClicking(true);
@@ -52,26 +52,21 @@ const Post = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const newFormData = new FormData();
       for (let key in formData) {
-      
         if (key === 'image' && formData[key] != null) {
           newFormData.append(`image`, formData.image.length);
           formData[key].forEach((file, index) => {
             newFormData.append(`image[${index}]`, file);
-            
           });
-        }
-        else {
+        } else {
           newFormData.append(key, formData[key]);
         }
       }
-      for (let key in formData) {
-        console.log(`${key} : ${newFormData.get(key)}`);
-      }
-      console.log(localStorage.getItem("token"))
-      const res = await axios.post(
+
+      const postPromise = axios.post(
         "http://localhost:8080/posts/create",
         newFormData,
         {
@@ -81,10 +76,19 @@ const Post = () => {
           }
         }
       );
+
+      toast.promise(postPromise, {
+        loading: "Your post is being uploaded...",
+        error: "Failed to upload",
+        success: "Post created successfully...."
+      });
+
+      const res = await postPromise;
       console.log(res.data);
-      
+      setLoading(false);
     } catch (err) {
       console.error(err);
+      setLoading(false);
     }
   };
 
@@ -109,6 +113,7 @@ const Post = () => {
                 onChange={handleChange}
                 className="w-72 bg-white rounded-lg m-2 text-black p-3 border shadow-sm"
                 required
+                disabled={loading}
               />
             </div>
             <div className="mb-4">
@@ -120,6 +125,7 @@ const Post = () => {
                 value={animal_name}
                 onChange={handleChange}
                 className="w-72 bg-white rounded-lg m-2 text-black p-3 border shadow-sm"
+                disabled={loading}
               />
             </div>
             <div className="mb-4">
@@ -133,6 +139,7 @@ const Post = () => {
                     checked={gender === "male"}
                     onChange={handleChange}
                     className="mr-2"
+                    disabled={loading}
                   />
                   Male
                 </label>
@@ -144,6 +151,7 @@ const Post = () => {
                     checked={gender === "female"}
                     onChange={handleChange}
                     className="mr-2"
+                    disabled={loading}
                   />
                   Female
                 </label>
@@ -158,6 +166,7 @@ const Post = () => {
                 value={address}
                 onChange={handleChange}
                 className="w-72 bg-white rounded-lg m-2 text-black p-3 border shadow-sm"
+                disabled={loading}
               />
             </div>
             <div className="mb-4">
@@ -169,6 +178,7 @@ const Post = () => {
                 value={city}
                 onChange={handleChange}
                 className="w-72 bg-white rounded-lg m-2 text-black p-3 border shadow-sm"
+                disabled={loading}
               />
             </div>
           </div>
@@ -189,18 +199,21 @@ const Post = () => {
                   <></>
                 )}
 
-                {Img.length<8 &&(<label className="border rounded-2xl cursor-pointer h-24 w-32 p-4 text-gray-600">
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    multiple
-                    onChange={handleChange}
-                    name="image"
-                  />
-                  <MdCloudUpload className="text-lg text-black" />
-                  <p className="text-sm">Upload</p>
-                </label>)}
+                {Img.length < 8 && (
+                  <label className="border rounded-2xl cursor-pointer h-24 w-32 p-4 text-gray-600">
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept="image/*"
+                      multiple
+                      onChange={handleChange}
+                      name="image"
+                      disabled={loading}
+                    />
+                    <MdCloudUpload className="text-lg text-black" />
+                    <p className="text-sm">Upload</p>
+                  </label>
+                )}
               </div>
             </div>
             <div className="mb-4">
@@ -211,6 +224,7 @@ const Post = () => {
                 value={description}
                 onChange={handleChange}
                 className="w-96 h-28 bg-white rounded-lg m-2 text-black p-3 border shadow-sm"
+                disabled={loading}
               />
             </div>
             <div className="mb-4 lg:mt-12">
@@ -223,17 +237,20 @@ const Post = () => {
                 value={breed}
                 onChange={handleChange}
                 className="w-72 bg-white rounded-lg m-2 text-black p-3 border shadow-sm"
+                disabled={loading}
               />
             </div>
           </div>
           <div className="flex justify-center md:col-span-2">
             <button
+              type="submit"
               className={`bg-[#3A6944]/30 lg:w-64 w-[90%] p-3 text-xl rounded-lg font-bold m-2 
-          ${clicking ? "transition-transform transform hover:scale-105" : ""}`}
+              ${clicking ? "transition-transform transform hover:scale-105" : ""}`}
               onMouseDown={handleMouseDown}
               onMouseUp={handleMouseUp}
+              disabled={loading}
             >
-              Add
+              {loading ? "Uploading..." : "Add"}
             </button>
           </div>
         </form>

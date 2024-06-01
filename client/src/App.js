@@ -15,12 +15,16 @@ import Profile from "./component/pages/user/Profile";
 import PetDetail from "./component/pages/feeds/cards/PetDetails";
 import { useState } from "react";
 import { Protected } from "./component/auth/route";
+import Loader from "./component/Loader";
+import { useSelector } from "react-redux";
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
-  const isOTPPage = location.pathname === "/Signup";
-
+  const isOTPPage = (location.pathname === "/Signup"  ||location.pathname === "/loader" );
+  const { loading } = useSelector((state) => state.root);
+  
   return (
     <div className="bg-[#FEFAE0] h-full">
       <Routes>
@@ -60,9 +64,10 @@ function App() {
             </Protected>
           }
         />
+        <Route path="/loader" element={<Loader/>} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
-      {!isOTPPage && <Footer />}
+      {!isOTPPage && !loading && <Footer />}
     </div>
   );
 }

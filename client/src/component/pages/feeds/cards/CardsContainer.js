@@ -1,25 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import Card from './Cards';
-import cardData from './CardsData';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '../../../../redux/reducers/rootSlice';
+import Loader from "../../../../component/Loader";
 
 function CardsContainer() {
-  const [data, setdata] = useState([])
-  const fetchAllposts = async () => {
-    const response = await axios.get("http://localhost:8080/posts/getAllPost", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    setdata(response.data.posts)
+  const [data, setData] = useState([]);
+  const { loading } = useSelector((state) => state.root);
+  const dispatch = useDispatch();
+
+  const fetchAllPosts = async () => {
+    try {
+      dispatch(setLoading(true));
+      const response = await axios.get("http://localhost:8080/posts/getAllPost", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      setData(response.data.posts);
+      dispatch(setLoading(false));
+    } catch (error) {
+      console.error("Error fetching posts", error);
+      dispatch(setLoading(false));
+    }
   };
+
   useEffect(() => {
-    fetchAllposts()
-  
-    
-  }, [])
-  
-  return (
+    fetchAllPosts();
+  }, []);
+
+  return loading ? (
+    <Loader />
+  ) : (
     <div className="container">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 justify-center">
         {data.map((item) => (
@@ -36,9 +49,6 @@ function CardsContainer() {
             gender={item.gender}
           />
         ))}
-
-
-        
       </div>
     </div>
   );
