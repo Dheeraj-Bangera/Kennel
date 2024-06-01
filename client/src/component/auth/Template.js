@@ -5,7 +5,7 @@ import SignUpForm from "./SignUpForm";
 import { FcGoogle } from "react-icons/fc";
 import { NavLink } from "react-router-dom";
 
-const Template = ({ formtype, setIsLoggedIn }) => {
+const Template = ({ formtype, setIsLoggedIn ,setOtpDisplay,setData}) => {
   return (
     <div className="  flex justify-center items-center m-3">
       <div className="grid grid-cols-1  sm:grid-cols-2 bg-[#3A6944]/30 rounded-xl w-5/6 lg:w-[50%] m-4 ">
@@ -18,7 +18,8 @@ const Template = ({ formtype, setIsLoggedIn }) => {
           />
         </div>
         <div className="flex flex-col items-center justify-center">
-          {formtype === "signup" ? <SignUpForm /> : <LoginForm />}
+          {formtype === "signup" ? <SignUpForm setOtpDisplay={setOtpDisplay}
+      setData={setData}/> : <LoginForm />}
 
           <div></div>
 

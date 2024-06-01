@@ -1,34 +1,57 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const AccountSettings = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-   
-    email: "",
-    phoneNumber: "",
-    address: "",
-    city: "",
-    pincode: "",
-  });
+  const [formData, setFormData] = useState({});
+  const [hasChanged, setHasChanged] = useState(false);
+  const fetchpost = async () => {
+    const response = await axios.get(`http://localhost:8080/user/get`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(response.data);
+    setFormData(response.data);
+  };
+  useEffect(() => {
+    fetchpost();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setHasChanged(true);
     setFormData({
       ...formData,
       [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // You can perform form submission or validation here
     console.log(formData);
+   try{ const res = await axios.post(`http://localhost:8080/user/update`, formData, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+
+    if(res.status === 200){
+      toast.success("Profile Updated Successfully");
+      setHasChanged(false)
+    }
+  }catch(err){
+    toast.error(err.message)
+  }
   };
 
   return (
     <div className="max-w-md mx-auto mt-10">
       {/* <h1 className="text-3xl flex justify-center font-semibold mb-5">Account Settings</h1> */}
-      <form onSubmit={handleSubmit} className="grid  gap-4 grid-cols-2 sm:p-0 p-4">
+      <form
+        onSubmit={handleSubmit}
+        className="grid  gap-4 grid-cols-2 sm:p-0 p-4"
+      >
         <div className="mb-4">
           <label
             htmlFor="name"
@@ -46,7 +69,7 @@ const AccountSettings = () => {
             required
           />
         </div>
-       
+
         <div className="mb-4">
           <label
             htmlFor="email"
@@ -132,7 +155,10 @@ const AccountSettings = () => {
         <div className="col-span-2">
           <button
             type="submit"
-            className="inline-flex items-center justify-center w-full px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-[#3A6944] hover:bg-[#3A6944]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:black mb-4"
+            className= {`inline-flex items-center justify-center w-full px-4 py-2 border border-transparent rounded-md shadow-sm text-base 
+            font-medium text-white bg-[#3A6944] hover:bg-[#3A6944]/90 focus:outline-none 
+            focus:ring-2 focus:ring-offset-2 focus:black mb-4 ${hasChanged? '': 'opacity-50 cursor-not-allowed'}`}
+            disabled={!hasChanged} 
           >
             Save
           </button>

@@ -1,11 +1,21 @@
-import React from 'react'
+import axios from "axios";
+import React, { useEffect } from "react";
+
 
 const YourPosts = () => {
-  return (
-    <div>
-      hello
-    </div>
-  )
-}
+  const fetchMyposts = async () => {
+    const response = await axios.get("http://localhost:8080/posts/getMypost", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(response)
+  };
+  useEffect(() => {
+    fetchMyposts();
+  }, []);
 
-export default YourPosts
+  return <div>hello</div>;
+};
+
+export default YourPosts;

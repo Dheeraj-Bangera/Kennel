@@ -8,14 +8,16 @@ import SyncLoader from "react-spinners/SyncLoader";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import dogWalker from "../../assets/dogwalker.png";
+import { useNavigate } from "react-router-dom";
 
 function OTP({ signupData }) {
   // const dispatch = useDispatch();
   // const router = useRouter();
+  const navigate = useNavigate();
   const [otp, setOtp] = React.useState(new Array(6).fill(""));
   const [loading, setLoading] = useState(false);
   // const [timer, setTimer] = useState(60);
-
+  console.log(signupData);
   const handleChange = (e) => {
     const value = e.target.value;
     const index = parseInt(e.target.dataset.index, 10);
@@ -49,17 +51,14 @@ function OTP({ signupData }) {
     const numOtp = ConcatenateArr(otp, 6);
     console.log(numOtp);
     signupData.otp = numOtp;
-    signupData.role = "client";
     console.log(signupData);
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/signup", signupData);
+      const response = await axios.post("http://localhost:8080/user/signup", signupData);
+      console.log(response)
       if (response.status === 200) {
-        const user = response.data.user;
-        const token = response.data.token;
+        toast.success("OTP verified successfully")
+        navigate("/login")
 
-        localStorage.setItem("token", token);
-        // dispatch(login({ user, token }));
-        // router.push("/dashboard");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {

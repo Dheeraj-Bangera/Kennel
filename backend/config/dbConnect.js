@@ -11,4 +11,4 @@ const dbConnect=async ()=>{
     console.log(err)
    })
 }
-module.exports = dbConnect
+module.exports = dbConnect   

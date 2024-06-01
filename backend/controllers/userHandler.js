@@ -1,42 +1,131 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const signupHandler = async (req, res) => {
+const OTP = require("../models/OTP");
+const otpGenerator =require("otp-generator")
+require("dotenv").config(); 
+const sendOtpHandler = async (req, res) => {
   try {
-    const name = req.body.name;
     const email = req.body.email;
-    const password = await bcrypt.hash(req.body.password, 10);
-    const phoneNo = req.body.phoneNumber;
-    // console.log(name,email,password);
 
-    const findUser = await User.findOne({ phoneNumber: phoneNo });
-    if (name == "" || email == "" || password == "" || phoneNo == null) {
-      res
-        .status(204)
-        .json({ message: "Please fill all fields", success: "false" });
-    }
-    if (findUser) {
-      res
-        .status(403)
-        .json({ message: "Email already exists", success: "false" });
-    } else {
-      const newUser = await User.create({
-        name: name,
-        password: password,
-        email: email,
-        phoneNumber: phoneNo,
-      });
-      res.json({
-        message: "Account created successfully",
-        succes: "true",
+    const user = await User.findOne({ email: email });
+    if (user) {
+      return res.status(403).json({
+        message: "user already exists",
+        success: false,
       });
     }
-  } catch (error) {
-    console.log("Error", error);
+    const otp = await otpGenerator.generate(6, {
+      lowerCaseAlphabets: false,
+      upperCaseAlphabets: false,
+      specialChars: false,
+    });
+
+    const createOtp = await OTP.create({
+      email: email,
+      otp: otp,
+    });
+    if (createOtp) {
+      return res.json({
+        otp: otp,
+        success: true,
+      });
+    } else console.log("error sending otp");
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send("Internal server error");
   }
 };
+const signupHandler = async (req, res) => {
+  try {
+    const { name, email, password: plainPassword, phoneNumber, otp } = req.body;
 
+    // Validate required fields
+    if (!name || !email || !plainPassword || !phoneNumber || !otp) {
+      return res.status(400).json({
+        message: "Please fill all fields",
+        success: false,
+      });
+    }
+
+    // Check if user with the given phone number already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(403).json({
+        message: "User with this email already exists",
+        success: false,
+      });
+    }
+
+    // Check if OTP is valid
+    const validOtp = await OTP.findOne({ email }).sort({ createdAt: -1 });
+    if (!validOtp) {
+      return res.status(400).json({
+        message: "No OTP found",
+        success: false,
+      });
+    } else if (otp !== validOtp.otp) {
+      return res.status(400).json({
+        message: "Invalid OTP",
+        success: false,
+      });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(plainPassword, 10);
+
+    // Create new user
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      phoneNumber,
+    });
+
+    if (!newUser) {
+      return res.status(500).json({
+        message: "Account creation failed",
+        success: false,
+      });
+    }
+
+    // Delete OTP after successful user creation
+    await OTP.deleteMany({ email });
+
+    // Create JWT token
+    const payload = {
+      id: newUser._id,
+      email: newUser.email,
+      name: newUser.name,
+    };
+    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
+
+    // Send response
+    return res
+      .cookie("token", token, {
+        expires: new Date(Date.now() + 1000 * 60 * 60),
+        httpOnly: true,
+        secure: true,
+        overwrite: true,
+        sameSite: "none"
+      })
+      .json({
+        message: "Account created successfully",
+        success: true,
+        user: {
+          id: newUser._id,
+          name,
+          email,
+          phoneNumber,
+        },
+        token,
+      });
+
+  } catch (error) {
+    console.error("Error:", error.message);
+    return res.status(500).send("Internal server error");
+  }
+};
 const loginHandler = async (req, res) => {
   try {
     const email = req.body.email;
@@ -56,7 +145,7 @@ const loginHandler = async (req, res) => {
           name: user.name,
         };
         let token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
-          expiresIn: "10m",
+          expiresIn: "10h",
         });
         await User.findByIdAndUpdate(user._id, { token: token });
         return res
@@ -67,6 +156,11 @@ const loginHandler = async (req, res) => {
           .json({
             message: "Account verified",
             succes: "true",
+            user:{
+              name: user.name,
+              email:user.email,
+              token:token
+            },
           });
       } else {
         return res.sendStatus(403).json({
@@ -97,6 +191,11 @@ const getUserHandler = async (req, res) => {
       });
     }
     delete user._doc.password;
+    delete user._doc.post
+    delete user._doc.token
+    delete user._doc.comments
+    delete user._doc.adopted_animal
+    
 
     res.json(user._doc);
   } catch (err) {
@@ -105,30 +204,38 @@ const getUserHandler = async (req, res) => {
 };
 const updateHandler = async (req, res) => {
   try {
-    const data = req.body;
- 
-    const id = req.body.userData.id
-    if (id) {
-      
+    const userId = req.body.userData.id; // Assuming the authenticated user's ID is in req.body.userData.id
+    const { name, password, email, phoneNumber, address, city, pincode } = req.body;
 
-      let user = await User.findByIdAndUpdate(id, data);
-      if (!user) {
-        return res.json({
-          message: "error in updating the given fields",
-          succes: "false",
-        });
-      }
-      res.send(user);
-    } else {
-      res.status(401).json({
-        message: "unauthorized",
-        succes: "false",
-      });
+    // Find user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found", success: false });
     }
-  } catch (err) {
-    console.log("Error", err);
+
+    // Update user fields
+    if (name) user.name = name;
+    if (password) user.password = password;
+    if (email) user.email = email;
+    if (phoneNumber) user.phoneNumber = phoneNumber;
+    if (address) user.address = address;
+    if (city) user.city = city;
+    if (pincode) user.pincode = pincode;
+
+    // Save updated user
+    const updatedUser = await user.save();
+
+    return res.status(200).json({
+      message: "User updated successfully",
+      success: true,
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "An error occurred", success: false });
   }
 };
+//
 const deleteHandler = async (req, res) => {
   try {
     const id = req.body.userData.id
@@ -162,4 +269,5 @@ module.exports = {
   getUserHandler,
   updateHandler,
   deleteHandler,
+  sendOtpHandler
 };

@@ -3,17 +3,15 @@ import { FaCircleInfo } from "react-icons/fa6";
 import { IoIosEye, IoIosEyeOff } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-// import { Link } from "react-router-dom";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 
 const USER_REGEX = /^[a-zA-Z\s.'-]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const CONTACT_REGEX = /^\+(?:[0-9] ?){6,14}[0-9]$/;
+const CONTACT_REGEX = /^[1-9][0-9]{9}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const SIGNUP_URL = "http://localhost:8080/user/signup";
+const SIGNUP_URL = process.env.REACT_APP_BACKEND_BASE_URL + "/user/signup";
 
-
-const SignUpForm = () => {
+const SignUpForm = ({ setOtpDisplay, setData }) => {
   const userRef = useRef();
   const errRef = useRef();
 
@@ -43,322 +41,231 @@ const SignUpForm = () => {
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const [clicking, setClicking] = useState(false);
-
-  const handleMouseDown = () => {
-    setClicking(true);
-  };
-
-  const handleMouseUp = () => {
-    setClicking(false);
-  };
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     userRef.current.focus();
   }, []);
 
   useEffect(() => {
-    const result = USER_REGEX.test(user);
-    setValidName(result);
+    setValidName(USER_REGEX.test(user));
   }, [user]);
 
   useEffect(() => {
-    const result = PWD_REGEX.test(pwd);
-    setValidPwd(result);
-    const match = pwd === matchPwd;
-    setValidMatch(match);
+    setValidPwd(PWD_REGEX.test(pwd));
+    setValidMatch(pwd === matchPwd);
   }, [pwd, matchPwd]);
 
   useEffect(() => {
-    const result = EMAIL_REGEX.test(email);
-    setValidEmail(result);
+    setValidEmail(EMAIL_REGEX.test(email));
   }, [email]);
 
   useEffect(() => {
-    const result = CONTACT_REGEX.test(phoneNumber);
-    setValidPhoneNumber(result);
+    setValidPhoneNumber(CONTACT_REGEX.test(phoneNumber));
   }, [phoneNumber]);
 
+  const otpClickHandler = async () => {
+    if (!user || !validName) {
+      toast.error("Please enter a valid name.");
+      return;
+    }
 
-  const [loading, setLoading] = useState(false);
-  const [otpClick, setOtpClick] = useState(false);
+    if (!email || !validEmail) {
+      toast.error("Please enter a valid email.");
+      return;
+    }
 
+    if (!phoneNumber || !validPhoneNumber) {
+      toast.error("Please enter a valid phone number.");
+      return;
+    }
 
-  const otpClickHandler = async (e) => {
+    if (!pwd || !validPwd) {
+      toast.error("Please enter a valid password.");
+      return;
+    }
+
+    if (!matchPwd || !validMatch) {
+      toast.error("Passwords do not match.");
+      return;
+    }
+
     setLoading(true);
-    const otpData = {
-      email: email,
-    };
+    const otpData = { email };
 
     try {
-      // Make the OTP request
-      await axios.post("http://localhost:8080/api/auth/getotp", otpData);
-      // If successful, show toast and set otpClick to true
-      toast("OTP sent successfully");
-      setOtpClick(true);
+      const signupData = { email, password: pwd, name: user, phoneNumber };
+      await axios.post("http://localhost:8080/user/sendOtp", otpData);
+      toast.success("OTP sent successfully");
+      setOtpDisplay(true);
+      setData(signupData);
     } catch (error) {
-      // If there is an error, handle it
-      if (error.response && error.response.status === 400) {
-        // Handle 400 response here
-        toast(error.message);
-        setErrMsg("Invalid Entry");
-      } else {
-        // Handle other errors here
-        toast(error);
-        console.error("An error occurred:", error);
-      }
+      const errorMessage =
+        error.response?.status === 400 ? "Invalid Entry" : error.message;
+      toast.error(errorMessage);
+      setErrMsg(errorMessage);
     } finally {
-      // Ensure loading is set to false, regardless of success or failure
       setLoading(false);
     }
   };
 
-  
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const v1 = USER_REGEX.test(user);
-    const v2 = PWD_REGEX.test(pwd);
-
-    if (!v1 || !v2) {
-      setErrMsg("Invalid Entry");
-      return;
-    }
-
-    try {
-      const response = await axios.post(
-        SIGNUP_URL,
-        JSON.stringify({
-          name: user,
-          password: pwd,
-          email: email,
-          phoneNumber: phoneNumber,
-        }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-
-      console.log(response?.data);
-      console.log(response?.accessToken);
-      console.log(JSON.stringify(response));
-      setSuccess(true);
-    } catch (err) {
-      console.error("Registration error:", err);
-
-      if (axios.isAxiosError(err)) {
-        if (!err.response) {
-          setErrMsg("No Server Response");
-        } else {
-          setErrMsg("Registration Failed");
-        }
-      } else {
-        setErrMsg("An unexpected error occurred during registration");
-      }
-
-      errRef.current.focus();
-    }
-  };
-
   return (
-    <div>
-      {success ? (
-        <section>
-          <h1>Success!</h1>
-          <p>
-            <NavLink to="/Login">Log In</NavLink>
+    <div className="mt-9">
+      <p ref={errRef} className={errMsg ? "errmsg" : "hidden"}>
+        {errMsg}
+      </p>
+      <div>
+        <label htmlFor="name">
+          <p className="font-semibold">
+            Name <sup>*</sup>
           </p>
-        </section>
-      ) : (
-        <div className=" mt-9">
-          <p ref={errRef} className={errMsg ? "errmsg" : "hidden"}>
-            {errMsg}
-          </p>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="name">
-              <p className="font-semibold	">
-                Name <sup>*</sup>
+          <input
+            type="text"
+            id="name"
+            ref={userRef}
+            autoComplete="off"
+            onChange={(e) => setUser(e.target.value)}
+            placeholder="Enter name"
+            onFocus={() => setUserFocus(true)}
+            onBlur={() => setUserFocus(false)}
+            className="sm:w-40 md:w-52 lg:w-64 rounded-lg m-2 text-black p-1"
+          />
+          {userFocus && user && !validName && (
+            <div className="flex bg-[#3A6944]/10 sm:w-40 md:w-52 lg:w-64">
+              <p>
+                <FaCircleInfo />
+                4 to 24 characters.
+                <br />
+                Must begin with a letter.
+                <br />
+                Letters allowed only.
               </p>
-              <input
-                required
-                type="text"
-                id="name"
-                ref={userRef}
-                autoComplete="off"
-                onChange={(e) => setUser(e.target.value)}
-                placeholder="Enter name"
-                onFocus={() => setUserFocus(true)}
-                onBlur={() => setUserFocus(false)}
-                className="sm:w-40 md:w-52 lg:w-64 rounded-lg m-2 text-black p-1"
-              />
-              <div
-                className={`flex bg-[#3A6944]/10 sm:w-40 md:w-52 lg:w-64   ${
-                  userFocus && user && !validName ? "" : "hidden"
-                }`}
-              >
-                <p>
-                  <FaCircleInfo />
-                  4 to 24 characters.
-                  <br />
-                  Must begin with a letter.
-                  <br />
-                  Letters allowed only.
-                </p>
-              </div>
-            </label>
-            <label>
-              <p className="font-semibold	">
-                Phone Number <sup>*</sup>
-              </p>
-              <input
-                required
-                type="tel"
-                name="phoneNumber"
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                placeholder="Enter Phone number"
-                onFocus={() => setPhoneNumberFocus(true)}
-                onBlur={() => setPhoneNumberFocus(false)}
-                className="sm:w-40 md:w-52 lg:w-64   rounded-lg m-2 text-black p-1"
-              />
-              <div
-                className={`flex bg-[#3A6944]/10 sm:w-40 md:w-52 lg:w-64   ${
-                  phoneNumberFocus && phoneNumber && !validPhoneNumber
-                    ? ""
-                    : "hidden"
-                }`}
-              >
-                <p>
-                  <FaCircleInfo />
-                  10 numbers only.
-                </p>
-              </div>
-            </label>
-            <label>
-              <p className="font-semibold	">
-                Email Address <sup>*</sup>
-              </p>
-              <input
-                required
-                type="email"
-                name="email"
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter Email Address"
-                onFocus={() => setEmailFocus(true)}
-                onBlur={() => setEmailFocus(false)}
-                className="sm:w-40 md:w-52 lg:w-64  rounded-lg m-2 text-black p-1"
-              />
-              <div
-                className={`flex bg-[#3A6944]/10 sm:w-40 md:w-52 lg:w-64   ${
-                  emailFocus && email && !validEmail ? "" : "hidden"
-                }`}
-              >
-                <p>
-                  <FaCircleInfo />
-                  Format: xyz@domain.com
-                </p>
-              </div>
-            </label>
-
-            <div>
-              <label htmlFor="password" className="flex flex-col  relative">
-                <p className="font-semibold	">
-                  Create Password <sup>*</sup>
-                </p>
-                <input
-                  required
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  onChange={(e) => setPwd(e.target.value)}
-                  value={pwd}
-                  onFocus={() => setPwdFocus(true)}
-                  onBlur={() => setPwdFocus(false)}
-                  placeholder="Enter Password"
-                  className="sm:w-40 md:w-52 lg:w-64 rounded-lg m-2 text-black p-1"
-                />
-                <span
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  className="cursor-pointer absolute   right-0  top-8	  flex items-center 
-                        justify-center w-10 text-black rounded-r-sm"
-                >
-                  {showPassword ? <IoIosEye /> : <IoIosEyeOff />}
-                </span>
-                <div
-                  className={`flex bg-[#3A6944]/10 sm:w-40 md:w-52 lg:w-64  ${
-                    pwdFocus && !validPwd ? "" : "hidden"
-                  }`}
-                >
-                  <p>
-                    <FaCircleInfo />
-                    8 to 24 characters.
-                    <br />
-                    Must include uppercase and lowercase letters, a number and a
-                    special character.
-                    <br />
-                    Allowed special characters:{" "}
-                    <span aria-label="exclamation mark">!</span>{" "}
-                    <span aria-label="at symbol">@</span>{" "}
-                    <span aria-label="hashtag">#</span>{" "}
-                    <span aria-label="dollar sign">$</span>{" "}
-                    <span aria-label="percent">%</span>
-                  </p>
-                </div>
-              </label>
-              <label className="flex flex-col  relative">
-                <p className="font-semibold	">
-                  Confirm Password <sup>*</sup>
-                </p>
-                <input
-                  required
-                  type={showPassword ? "text" : "password"}
-                  onChange={(e) => setMatchPwd(e.target.value)}
-                  value={matchPwd}
-                  placeholder="Confirm Password"
-                  onFocus={() => setMatchFocus(true)}
-                  onBlur={() => setMatchFocus(false)}
-                  className="sm:w-40 md:w-52 lg:w-64  rounded-lg m-2 text-black p-1"
-                />
-                <span
-                  onClick={() => setShowConfirmPassword((prev) => !prev)}
-                  className="cursor-pointer absolute  right-0  top-8	  flex items-center 
-      justify-center w-10 text-black rounded-r-sm"
-                >
-                  {showConfirmPassword ? <IoIosEye /> : <IoIosEyeOff />}
-                </span>
-                <div
-                  className={`flex bg-[#3A6944]/10 sm:w-40 md:w-52 lg:w-64   ${
-                    matchFocus && !validMatch ? "" : "hidden"
-                  }`}
-                >
-                  <p>
-                    <FaCircleInfo />
-                    Must match the first password input field.
-                  </p>
-                </div>
-              </label>
             </div>
-
-   
-            <button
-              className={`bg-[#3A6944]/30 lg:w-64 w-[90%] p-1 rounded-lg font-bold m-2 
-              transition-transform transform hover:scale-95   ${
-                clicking ? "transition-transform transform hover:scale-105" : ""
-              }`}
-              onClick={otpClickHandler}
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
+          )}
+        </label>
+        <label>
+          <p className="font-semibold">
+            Phone Number <sup>*</sup>
+          </p>
+          <input
+            type="tel"
+            name="phoneNumber"
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            placeholder="Enter Phone number"
+            onFocus={() => setPhoneNumberFocus(true)}
+            onBlur={() => setPhoneNumberFocus(false)}
+            className="sm:w-40 md:w-52 lg:w-64 rounded-lg m-2 text-black p-1"
+          />
+          {phoneNumberFocus && phoneNumber && !validPhoneNumber && (
+            <div className="flex bg-[#3A6944]/10 sm:w-40 md:w-52 lg:w-64">
+              <p>
+                <FaCircleInfo />
+                Format: +CountryCode PhoneNumber (e.g., +1234567890)
+              </p>
+            </div>
+          )}
+        </label>
+        <label>
+          <p className="font-semibold">
+            Email Address <sup>*</sup>
+          </p>
+          <input
+            type="email"
+            name="email"
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter Email Address"
+            onFocus={() => setEmailFocus(true)}
+            onBlur={() => setEmailFocus(false)}
+            className="sm:w-40 md:w-52 lg:w-64 rounded-lg m-2 text-black p-1"
+          />
+          {emailFocus && email && !validEmail && (
+            <div className="flex bg-[#3A6944]/10 sm:w-40 md:w-52 lg:w-64">
+              <p>
+                <FaCircleInfo />
+                Format: xyz@domain.com
+              </p>
+            </div>
+          )}
+        </label>
+        <div>
+          <label htmlFor="password" className="flex flex-col relative">
+            <p className="font-semibold">
+              Create Password <sup>*</sup>
+            </p>
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              onChange={(e) => setPwd(e.target.value)}
+              value={pwd}
+              onFocus={() => setPwdFocus(true)}
+              onBlur={() => setPwdFocus(false)}
+              placeholder="Enter Password"
+              className="sm:w-40 md:w-52 lg:w-64 rounded-lg m-2 text-black p-1"
+            />
+            <span
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="cursor-pointer absolute right-0 top-8 flex items-center justify-center w-10 text-black rounded-r-sm"
             >
-               Generate OTP
-            </button>
-
-   
-          </form>
+              {showPassword ? <IoIosEye /> : <IoIosEyeOff />}
+            </span>
+            {pwdFocus && !validPwd && (
+              <div className="flex bg-[#3A6944]/10 sm:w-40 md:w-52 lg:w-64">
+                <p>
+                  <FaCircleInfo />
+                  8 to 24 characters.
+                  <br />
+                  Must include uppercase and lowercase letters, a number, and a
+                  special character.
+                </p>
+              </div>
+            )}
+          </label>
         </div>
-      )}
+        <div>
+          <label htmlFor="confirm_pwd" className="flex flex-col relative">
+            <p className="font-semibold">
+              Confirm Password <sup>*</sup>
+            </p>
+            <input
+              id="confirm_pwd"
+              type={showConfirmPassword ? "text" : "password"}
+              onChange={(e) => setMatchPwd(e.target.value)}
+              value={matchPwd}
+              onFocus={() => setMatchFocus(true)}
+              onBlur={() => setMatchFocus(false)}
+              placeholder="Confirm Password"
+              className="sm:w-40 md:w-52 lg:w-64 rounded-lg m-2 text-black p-1"
+            />
+            <span
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              className="cursor-pointer absolute right-0 top-8 flex items-center justify-center w-10 text-black rounded-r-sm"
+            >
+              {showConfirmPassword ? <IoIosEye /> : <IoIosEyeOff />}
+            </span>
+            {matchFocus && !validMatch && (
+              <div className="flex bg-[#3A6944]/10 sm:w-40 md:w-52 lg:w-64">
+                <p>
+                  <FaCircleInfo />
+                  Must match the first password input field.
+                </p>
+              </div>
+            )}
+          </label>
+        </div>
+        <button
+          className={`bg-[#3A6944]/30 lg:w-64 w-[90%] p-1 rounded-lg font-bold m-2 
+              transition-transform transform hover:scale-95 ${
+                loading ? "cursor-not-allowed" : "cursor-pointer"
+              }
+              `}
+          onClick={otpClickHandler}
+          disabled={loading} 
+        >
+          {loading ? "Sending OTP..." : "Send OTP"}
+        </button>
+      </div>
     </div>
   );
-
 };
 
 export default SignUpForm;
