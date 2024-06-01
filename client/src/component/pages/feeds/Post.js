@@ -10,7 +10,7 @@ const Post = () => {
     animal: "",
     animal_name: "",
     gender: "",
-    image:[],
+    image: null,
     description: "",
     breed: "",
     address: "",
@@ -31,13 +31,10 @@ const Post = () => {
 
   const handleChange = (e) => {
     if (e.target.name === "image") {
-      console.log("handlechange called")
-      setFormData({ ...formData, [e.target.name]: [...image, e.target.files[0]] });
-      setImg([...Img,  e.target.files[0]]);
+      setFormData({ ...formData, [e.target.name]: e.target.files[0] });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
-    console.log(formData);
   };
 
   const [clicking, setClicking] = useState(false);
@@ -50,39 +47,33 @@ const Post = () => {
     setClicking(false);
   };
 
+  function uploadPhoto(ev) {
+    const files = ev.target.files[0];
+    setImg([...Img, files]);
+    console.log({ files });
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const newFormData = new FormData();
-      for (let key in formData) {
-      
-        if (key === 'image' && formData[key] != null) {
-          newFormData.append(`image`, formData.image.length);
-          formData[key].forEach((file, index) => {
-            newFormData.append(`image[${index}]`, file);
-            
-          });
-        }
-        else {
-          newFormData.append(key, formData[key]);
-        }
-      }
-      for (let key in formData) {
-        console.log(`${key} : ${newFormData.get(key)}`);
-      }
-      console.log(localStorage.getItem("token"))
+      const postData = new FormData();
+      postData.append("animal", animal);
+      postData.append("animal_name", animal_name);
+      postData.append("gender", gender);
+      postData.append("image", image);
+      postData.append("description", description);
+      postData.append("breed", breed);
+      postData.append("address", address);
+      postData.append("city", city);
+
       const res = await axios.post(
-        "http://localhost:8080/posts/create",
-        newFormData,
+        "http://localhost:8080/post/create",
+        postData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "Authorization": `Bearer ${localStorage.getItem("token")}`
-          }
+          headers: "multipart/form",
         }
       );
       console.log(res.data);
-      
     } catch (err) {
       console.error(err);
     }
@@ -90,13 +81,13 @@ const Post = () => {
 
   return (
     <div>
-      <div className="flex flex-col justify-center items-center mb-8">
-        <h1 className="text-3xl font-bold mb-4 font-[Knewave] flex items-center justify-center mt-6">
+      <div className=" flex flex-col justify-center items-center  mb-8 ">
+        <h1 className="text-3xl font-bold mb-4 font-[Knewave] flex items-center justify-center mt-6 ">
           Post a Furry for Adoption
         </h1>
         <form
           onSubmit={handleSubmit}
-          className="bg-[#3A6944]/30 p-4 rounded-xl grid grid-cols-1 md:grid-cols-2"
+          className="bg-[#3A6944]/30 p-4 rounded-xl grid grid-cols-1 md:grid-cols-2 "
         >
           <div className="px-10">
             <div className="mb-4">
@@ -172,35 +163,35 @@ const Post = () => {
               />
             </div>
           </div>
-          <div>
+          <div >
             <div className="">
               <p className="text-xl mt-4 font-bold">Photos </p>
-              <p className="text-sm text-gray-500">more=better </p>
+              <p className="text-sm  text-gray-500">more=better </p>
 
-              <div className="mt-2 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2">
+              <div className="mt-2 grid grid-cols-1 md:grid-cols-3  lg:grid-cols-4 gap-2">
                 {Img.length > 0 ? (
-                  Img.map((file, index) => {
-                    if (file == null) {
-                      return null;
+                  Img.map((index) => {
+                    if (index == null) {
+                      return;
                     }
-                    return <Display image={file} key={index} />;
+                    return <Display image={index} />;
                   })
                 ) : (
                   <></>
                 )}
-
-                {Img.length<8 &&(<label className="border rounded-2xl cursor-pointer h-24 w-32 p-4 text-gray-600">
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    multiple
-                    onChange={handleChange}
-                    name="image"
-                  />
-                  <MdCloudUpload className="text-lg text-black" />
-                  <p className="text-sm">Upload</p>
-                </label>)}
+                
+                  <label className="border rounded-2xl cursor-pointer h-24 w-32  p-4 text-gray-600">
+                    <input
+                      type="file"
+                      className=" hidden"
+                      accept="image/*"
+                      multiple
+                      onChange={uploadPhoto}
+                    />
+                    <MdCloudUpload className="text-lg text-black" />
+                    <p className="text-sm">Upload</p>
+                  </label>
+                
               </div>
             </div>
             <div className="mb-4">
@@ -215,10 +206,10 @@ const Post = () => {
             </div>
             <div className="mb-4 lg:mt-12">
               <p className="text-xl mt-4 font-bold">Breed </p>
-              <p className="text-sm text-gray-500">Type nil if don't know</p>
+              <p className="text-sm  text-gray-500">Type nil if don't know</p>
               <input
                 type="text"
-                placeholder="Breed E.g German shepherd, Pomeranian"
+                placeholder="Breed E.g German sheperd, Pomerian"
                 name="breed"
                 value={breed}
                 onChange={handleChange}
@@ -228,7 +219,7 @@ const Post = () => {
           </div>
           <div className="flex justify-center md:col-span-2">
             <button
-              className={`bg-[#3A6944]/30 lg:w-64 w-[90%] p-3 text-xl rounded-lg font-bold m-2 
+              className={`bg-[#3A6944]/30  lg:w-64 w-[90%] p-3 text-xl rounded-lg font-bold m-2 
           ${clicking ? "transition-transform transform hover:scale-105" : ""}`}
               onMouseDown={handleMouseDown}
               onMouseUp={handleMouseUp}
@@ -241,12 +232,12 @@ const Post = () => {
       <div className="relative">
         <img
           src={doogo}
-          className="md:h-48 md:w-48 absolute hidden md:block bottom-0 left-0"
+          className="md:h-48 md:w-48 absolute   hidden md:block bottom-0 left-0"
           alt="Team"
         />
         <img
           src={cat}
-          className="md:h-48 md:w-48 absolute hidden md:block bottom-0 right-12"
+          className="md:h-48 md:w-48 absolute   hidden md:block bottom-0 right-12"
           alt="Team"
         />
       </div>
