@@ -35,8 +35,10 @@ const Post = () => {
 
   const handleChange = (e) => {
     if (e.target.name === "image") {
+
       setFormData({ ...formData, [e.target.name]: [...image, e.target.files[0]] });
       setImg([...Img, e.target.files[0]]);
+
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -49,6 +51,12 @@ const Post = () => {
   const handleMouseUp = () => {
     setClicking(false);
   };
+
+  function uploadPhoto(ev) {
+    const files = ev.target.files[0];
+    setImg([...Img, files]);
+    console.log({ files });
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,10 +78,7 @@ const Post = () => {
         "http://localhost:8080/posts/create",
         newFormData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "Authorization": `Bearer ${localStorage.getItem("token")}`
-          }
+          headers: "multipart/form",
         }
       );
 
@@ -94,13 +99,13 @@ const Post = () => {
 
   return (
     <div>
-      <div className="flex flex-col justify-center items-center mb-8">
-        <h1 className="text-3xl font-bold mb-4 font-[Knewave] flex items-center justify-center mt-6">
+      <div className=" flex flex-col justify-center items-center  mb-8 ">
+        <h1 className="text-3xl font-bold mb-4 font-[Knewave] flex items-center justify-center mt-6 ">
           Post a Furry for Adoption
         </h1>
         <form
           onSubmit={handleSubmit}
-          className="bg-[#3A6944]/30 p-4 rounded-xl grid grid-cols-1 md:grid-cols-2"
+          className="bg-[#3A6944]/30 p-4 rounded-xl grid grid-cols-1 md:grid-cols-2 "
         >
           <div className="px-10">
             <div className="mb-4">
@@ -182,18 +187,18 @@ const Post = () => {
               />
             </div>
           </div>
-          <div>
+          <div >
             <div className="">
               <p className="text-xl mt-4 font-bold">Photos </p>
-              <p className="text-sm text-gray-500">more=better </p>
+              <p className="text-sm  text-gray-500">more=better </p>
 
-              <div className="mt-2 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2">
+              <div className="mt-2 grid grid-cols-1 md:grid-cols-3  lg:grid-cols-4 gap-2">
                 {Img.length > 0 ? (
-                  Img.map((file, index) => {
-                    if (file == null) {
-                      return null;
+                  Img.map((index) => {
+                    if (index == null) {
+                      return;
                     }
-                    return <Display image={file} key={index} />;
+                    return <Display image={index} />;
                   })
                 ) : (
                   <></>
@@ -229,10 +234,10 @@ const Post = () => {
             </div>
             <div className="mb-4 lg:mt-12">
               <p className="text-xl mt-4 font-bold">Breed </p>
-              <p className="text-sm text-gray-500">Type nil if don't know</p>
+              <p className="text-sm  text-gray-500">Type nil if don't know</p>
               <input
                 type="text"
-                placeholder="Breed E.g German shepherd, Pomeranian"
+                placeholder="Breed E.g German sheperd, Pomerian"
                 name="breed"
                 value={breed}
                 onChange={handleChange}
@@ -258,12 +263,12 @@ const Post = () => {
       <div className="relative">
         <img
           src={doogo}
-          className="md:h-48 md:w-48 absolute hidden md:block bottom-0 left-0"
+          className="md:h-48 md:w-48 absolute   hidden md:block bottom-0 left-0"
           alt="Team"
         />
         <img
           src={cat}
-          className="md:h-48 md:w-48 absolute hidden md:block bottom-0 right-12"
+          className="md:h-48 md:w-48 absolute   hidden md:block bottom-0 right-12"
           alt="Team"
         />
       </div>

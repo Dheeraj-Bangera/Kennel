@@ -13,6 +13,7 @@ import Post from "./component/pages/feeds/Post";
 import OTP from "./component/auth/OTP";
 import Profile from "./component/pages/user/Profile";
 import PetDetail from "./component/pages/feeds/cards/PetDetails";
+import Contact from "./component/pages/feeds/ContactUs";
 import { useState } from "react";
 import { Protected } from "./component/auth/route";
 import Loader from "./component/Loader";
@@ -65,6 +66,14 @@ function App() {
           }
         />
         <Route path="/loader" element={<Loader/>} />
+        <Route
+          path="/contact"
+          element={
+            <Protected>
+              <Contact/>
+            </Protected>
+          }
+        />
         <Route path="/*" element={<NotFound />} />
       </Routes>
       {!isOTPPage && !loading && <Footer />}
