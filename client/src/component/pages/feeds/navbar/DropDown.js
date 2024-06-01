@@ -5,10 +5,13 @@ import { MdCancel } from "react-icons/md";
 import { AiOutlineTeam } from "react-icons/ai";
 import { BiSupport } from "react-icons/bi";
 import { IoMdLogOut } from "react-icons/io";
+import { setUserInfo } from "../../../../redux/reducers/rootSlice";
+import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 const DropDown = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const dispatch = useDispatch();
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -23,7 +26,13 @@ const DropDown = () => {
   ];
 
   const handleMenuItemClick = (path) => {
-    if (path.startsWith("http")) {
+    if(path === "/logout"){
+      localStorage.removeItem("token");
+      dispatch(setUserInfo({}));
+      window.location.reload();
+      toast.success('Logged Out');
+    }
+    else if (path.startsWith("http")) {
       window.location.href = path; // Redirect to external link
     } else {
       window.location.pathname = path; // Update window location path

@@ -8,10 +8,7 @@ const fileupload= require("express-fileupload")
 const cloudinaryConnect = require("./config/cloudinary")
 require("dotenv").config()
 const app = express()
-app.use(cors({
-    origin:"http://localhost:3000",
-    credentials: true}
-    ))
+app.use(cors());
 const bodyParser = require("body-parser")
 
 app.use(cookieParser())
@@ -26,3 +23,6 @@ dbConnect();
 cloudinaryConnect();
 app.use("/user",userRouter) 
 app.use("/posts",postRouter) 
+
+
+

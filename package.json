@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
     "@formspree/react": "^2.5.1",
     "concurrently": "^8.2.2"
   }
