@@ -4,7 +4,7 @@ import { IoIosEyeOff } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({
+  const [FormData, setFormData] = useState({
     email: "",
     password: "",
   });

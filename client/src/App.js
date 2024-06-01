@@ -13,6 +13,7 @@ import Post from "./component/pages/feeds/Post";
 import OTP from "./component/auth/OTP";
 import Profile from "./component/pages/user/Profile";
 import PetDetail from "./component/pages/feeds/cards/PetDetails";
+import Contact from "./component/pages/feeds/ContactUs";
 import { useState } from "react";
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/Signup/OTP" element={<OTP />} />
         <Route path="/feeds" element={<Feeds />} />
         <Route path="/add-post" element={<Post />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/user/:activepage" element={<Profile />} />
         <Route path="/pet/:id" element={<PetDetail/>} />
         <Route path="/*" element={<NotFound />} />
