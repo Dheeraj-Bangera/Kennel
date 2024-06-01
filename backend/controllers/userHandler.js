@@ -113,6 +113,7 @@ const signupHandler = async (req, res) => {
         message: "Account created successfully",
         success: true,
         user: {
+          id: newUser._id,
           name,
           email,
           phoneNumber,
@@ -144,7 +145,7 @@ const loginHandler = async (req, res) => {
           name: user.name,
         };
         let token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
-          expiresIn: "10m",
+          expiresIn: "10h",
         });
         await User.findByIdAndUpdate(user._id, { token: token });
         return res
@@ -172,8 +173,6 @@ const loginHandler = async (req, res) => {
     console.log("Error", err);
   }
 };
-
-//
 const getUserHandler = async (req, res) => {
   try {
     const id = req.body.userData.id;
@@ -192,6 +191,11 @@ const getUserHandler = async (req, res) => {
       });
     }
     delete user._doc.password;
+    delete user._doc.post
+    delete user._doc.token
+    delete user._doc.comments
+    delete user._doc.adopted_animal
+    
 
     res.json(user._doc);
   } catch (err) {
@@ -200,30 +204,38 @@ const getUserHandler = async (req, res) => {
 };
 const updateHandler = async (req, res) => {
   try {
-    const data = req.body;
- 
-    const id = req.body.userData.id
-    if (id) {
-      
+    const userId = req.body.userData.id; // Assuming the authenticated user's ID is in req.body.userData.id
+    const { name, password, email, phoneNumber, address, city, pincode } = req.body;
 
-      let user = await User.findByIdAndUpdate(id, data);
-      if (!user) {
-        return res.json({
-          message: "error in updating the given fields",
-          succes: "false",
-        });
-      }
-      res.send(user);
-    } else {
-      res.status(401).json({
-        message: "unauthorized",
-        succes: "false",
-      });
+    // Find user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found", success: false });
     }
-  } catch (err) {
-    console.log("Error", err);
+
+    // Update user fields
+    if (name) user.name = name;
+    if (password) user.password = password;
+    if (email) user.email = email;
+    if (phoneNumber) user.phoneNumber = phoneNumber;
+    if (address) user.address = address;
+    if (city) user.city = city;
+    if (pincode) user.pincode = pincode;
+
+    // Save updated user
+    const updatedUser = await user.save();
+
+    return res.status(200).json({
+      message: "User updated successfully",
+      success: true,
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "An error occurred", success: false });
   }
 };
+//
 const deleteHandler = async (req, res) => {
   try {
     const id = req.body.userData.id

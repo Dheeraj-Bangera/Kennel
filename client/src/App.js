@@ -14,11 +14,12 @@ import OTP from "./component/auth/OTP";
 import Profile from "./component/pages/user/Profile";
 import PetDetail from "./component/pages/feeds/cards/PetDetails";
 import { useState } from "react";
+import { Protected } from "./component/auth/route";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
-  const isOTPPage = location.pathname === "/Signup/OTP";
+  const isOTPPage = location.pathname === "/Signup";
 
   return (
     <div className="bg-[#FEFAE0] h-full">
@@ -27,10 +28,38 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />
         <Route path="/Signup/OTP" element={<OTP />} />
-        <Route path="/feeds" element={<Feeds />} />
-        <Route path="/add-post" element={<Post />} />
-        <Route path="/user/:activepage" element={<Profile />} />
-        <Route path="/pet/:id" element={<PetDetail/>} />
+        <Route
+          path="/feeds"
+          element={
+            <Protected>
+              <Feeds />
+            </Protected>
+          }
+        />
+        <Route
+          path="/add-post"
+          element={
+            <Protected>
+              <Post />
+            </Protected>
+          }
+        />
+        <Route
+          path="/user/:activepage"
+          element={
+            <Protected>
+              <Profile />
+            </Protected>
+          }
+        />
+        <Route
+          path="/pet/:id"
+          element={
+            <Protected>
+              <PetDetail />
+            </Protected>
+          }
+        />
         <Route path="/*" element={<NotFound />} />
       </Routes>
       {!isOTPPage && <Footer />}

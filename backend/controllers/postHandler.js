@@ -6,19 +6,18 @@ require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
 
 const createPostHandler = async (req, res) => {
-  // fetching from req
   try {
     const id = req.body.userData.id;
-    const { animal, animal_name, gender, description, breed, address, city } =
-      req.body;
-    const image = req.files.image;
+    const { animal, animal_name, gender, description, breed, address, city } = req.body;
+    const image = req.body?.image;
 
     // checking for valid data
-    if (animal == "" || animal_name == "" || gender == "") {
+    if (animal === "" || animal_name === "" || gender === "") {
       return res
         .status(204)
         .json({ message: "Please fill all required fields", success: false });
     }
+
     // checking if user exists
     let foundUser = await User.findById(id);
     if (!foundUser) {
@@ -26,20 +25,40 @@ const createPostHandler = async (req, res) => {
         .status(204)
         .json({ message: "User not found", success: false });
     }
-    // Image Upload
-    console.log(image)
-    const uploadedImage = await cloudinary.uploader.upload(image.tempFilePath, {
-      folder: "kennel_post_images",
-      resource_type: "auto",   
-      quality: 20,
-    });
-    if (!uploadedImage) {
-      return res
-        .status(400)
-        .send({ message: "Failed to upload Image", success: false });
+
+    // Collecting all image URLs
+    let imageUrls = [];
+
+    // Uploading media files
+    console.log(image);
+    if(image && image>0){
+      let upImage =null
+
+      for(let i = 0 ;i<image; i++){
+        console.log(i);
+        if(req.files?.[`image[${i}]`]){
+          try{upImage =await cloudinary.uploader.upload(
+            req.files?.[`image[${i}]`].tempFilePath,
+            {
+              folder: "Kennel/post_media",
+              resource_type: "auto",
+              quality: 20,
+            }
+            
+            )
+            console.log(upImage)
+            imageUrls = [...imageUrls,upImage.secure_url]
+          }catch(err){
+              console.log(err);
+              return res.send(err)
+            }
+            
+        }
+      }
+
     }
 
-    //creating a entry in db
+    // creating a post entry in the database
     const newPost = await Post.create({
       animal,
       animal_name,
@@ -47,17 +66,19 @@ const createPostHandler = async (req, res) => {
       description,
       breed,
       address,
-      image: uploadedImage.secure_url,
+      image: imageUrls, // Save array of image URLs
       city,
       user: id,
       date: Date.now(),
     });
+
     if (!newPost) {
       return res
         .status(500)
         .json({ message: "Failed to create post", success: false });
     }
-    //updating user model
+
+    // updating user model
     const userModelUpdate = await User.findByIdAndUpdate(
       id,
       {
@@ -65,23 +86,83 @@ const createPostHandler = async (req, res) => {
       },
       { new: true }
     );
+
     if (!userModelUpdate) {
       await Post.deleteOne({ _id: newPost._id }).catch((err) => {
         console.log(err);
       });
       return res
         .status(400)
-        .json({ message: "user not found", success: false });
+        .json({ message: "User not found", success: false });
     }
 
-    //when all goes well
+    // when all goes well
     return res
       .status(201)
       .json({ message: "Created successfully!", success: true });
   } catch (error) {
     console.log(error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred", success: false });
   }
 };
+const getMyPostsHandler = async (req, res) => {
+  try {
+    const userId = req.body.userData.id;
+    const foundUser = await User.findById(userId);
+    if (!foundUser) {
+      return res
+        .status(404)
+        .json({ message: "User not found", success: false });
+    }
+
+    // Retrieve posts created by the user
+    const userPosts = await Post.find({ user: userId }).sort({ date: -1 });
+
+    if (!userPosts) {
+      return res
+        .status(404)
+        .json({ message: "No posts found for this user", success: false });
+    }
+
+    // Respond with the user's posts
+    return res
+      .status(200)
+      .json({ message: "Posts retrieved successfully", success: true, posts: userPosts });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred", success: false });
+  }
+};
+const getAllPostsHandler = async (req, res) => {
+  try {
+    // Retrieve all posts
+    const allPosts = await Post.find().sort({ date: -1 });
+
+    if (!allPosts || allPosts.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No posts found", success: false });
+    }
+
+    // Respond with all posts
+    return res
+      .status(200)
+      .json({ message: "Posts retrieved successfully", success: true, posts: allPosts });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred", success: false });
+  }
+};
+
+
+
+
 const getPostHandler = async (req, res) => {
   try {
     const id = req.params.id;
@@ -98,6 +179,7 @@ const getPostHandler = async (req, res) => {
     }
   } catch (err) {}
 };
+
 const updatePostHandler = async (req, res) => {
   try {
     let data;
@@ -235,4 +317,6 @@ module.exports = {
   getPostHandler,
   updatePostHandler,
   deletePostHandler,
+  getMyPostsHandler,
+  getAllPostsHandler
 };
