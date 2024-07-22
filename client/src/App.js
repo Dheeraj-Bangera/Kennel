@@ -18,6 +18,7 @@ import { useState } from "react";
 import { Protected } from "./component/auth/route";
 import Loader from "./component/Loader";
 import { useSelector } from "react-redux";
+import Team from "./component/pages/feeds/navbar/TeamInfo"
 
 
 function App() {
@@ -46,6 +47,14 @@ function App() {
           element={
             <Protected>
               <Post />
+            </Protected>
+          }
+        />
+        <Route
+          path="/team"
+          element={
+            <Protected>
+              <Team />
             </Protected>
           }
         />

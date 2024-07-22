@@ -41,9 +41,9 @@ const Home = () => {
     <div className="bg-[#FEFAE0] h-full">
 
       <Nav/>
-      <Quote/>
+      <Quote className=""/>
 
-      <div className="flex flex-col items-center ">
+      <div className="flex flex-col items-center  ">
         <div className="flex gap-4 ">
           {cards.map((card, index) => (
             <div classname=" select-none" key={index}>

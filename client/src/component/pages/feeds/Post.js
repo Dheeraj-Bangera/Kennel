@@ -190,7 +190,7 @@ const Post = () => {
           <div >
             <div className="">
               <p className="text-xl mt-4 font-bold">Photos </p>
-              <p className="text-sm  text-gray-500">more=better </p>
+              <p className="text-sm  text-gray-500">To showcase the cuteness overload, we should include at least 4 images! </p>
 
               <div className="mt-2 grid grid-cols-1 md:grid-cols-3  lg:grid-cols-4 gap-2">
                 {Img.length > 0 ? (

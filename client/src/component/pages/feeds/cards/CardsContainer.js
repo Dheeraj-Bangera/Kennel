@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Card from './Cards';
+// import CardData from './CardsData';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading } from '../../../../redux/reducers/rootSlice';
@@ -50,6 +51,8 @@ function CardsContainer() {
           />
         ))}
       </div>
+
+      
     </div>
   );
 }

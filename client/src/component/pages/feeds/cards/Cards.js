@@ -28,19 +28,19 @@ function Card({
   };
 
   let adoptionItem;
-  switch (animal) {
-    case "dog":
-      adoptionItem = <img src={dogBone} alt="bone" className="w-48 h-48 imgEffect" />;
-      break;
-    case "cat":
-      adoptionItem = <img src={catFood} alt="bowl" className="w-48 h-48 imgEffect" />;
-      break;
-    case "rabbit":
-      adoptionItem = <img src={carrot} alt="carrot" className="w-48 h-48 imgEffect" />;
-      break;
-    default:
-      adoptionItem = null;
-  }
+switch (animal.toLowerCase()) {  // Convert the input to lowercase
+  case "dog":
+    adoptionItem = <img src={dogBone} alt="bone" className="w-48 h-48 imgEffect" />;
+    break;
+  case "cat":
+    adoptionItem = <img src={catFood} alt="bowl" className="w-48 h-48 imgEffect" />;
+    break;
+  case "rabbit":
+    adoptionItem = <img src={carrot} alt="carrot" className="w-48 h-48 imgEffect" />;
+    break;
+  default:
+    adoptionItem = null;
+}
 
   return (
     <div className="relative">

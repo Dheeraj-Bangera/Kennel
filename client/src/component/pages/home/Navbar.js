@@ -47,7 +47,7 @@ const Navbar = () => {
       >
         <ul className='flex md:flex-row flex-col font-bold md:items-center md:gap-[4vw] gap-8'>
           <li>
-            <NavLink to='/' className='hover:text-gray-500'>
+            <NavLink to='/feeds' className='hover:text-gray-500'>
               Home
             </NavLink>
           </li>
