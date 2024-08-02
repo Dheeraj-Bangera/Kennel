@@ -312,11 +312,57 @@ const deletePostHandler = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error', success: false });
   }
 };
+
+
+const searchHandler= async (req,res)=>{
+  try {
+    const { keyword } = req.query;
+
+    if (!keyword) {
+      return res.status(400).json({
+        success: false,
+        message: "Keyword is required for searching",
+      });
+    }
+
+    // Build search criteria using $or and $regex for case-insensitive search
+    const searchCriteria = {
+      $or: [
+        { animal: { $regex: keyword, $options: 'i' } },
+        { animal_name: { $regex: keyword, $options: 'i' } },
+        { gender: { $regex: keyword, $options: 'i' } },
+        { breed: { $regex: keyword, $options: 'i' } },
+        { city: { $regex: keyword, $options: 'i' } },
+        { description: { $regex: keyword, $options: 'i' } },
+        // Add other fields you want to search within if needed
+      ]
+    };
+
+    // Find posts matching the search criteria
+    const posts = await Post.find(searchCriteria).populate('user').populate('adopted_by');
+    // Return the search results
+    res.json({
+      success: true,
+      data: posts,
+    });
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+    });
+  }
+
+
+
+
+}
 module.exports = {
   createPostHandler,
   getPostHandler,
   updatePostHandler,
   deletePostHandler,
   getMyPostsHandler,
-  getAllPostsHandler
+  getAllPostsHandler,
+  searchHandler
 };

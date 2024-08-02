@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FeedsNav from './navbar/FeedsNav'
 import CardsContainer from './cards/CardsContainer'
 
 const Main = () => {
+  const [data, setData] = useState();
   return (
     <div>
-      <FeedsNav />
-      <CardsContainer/>
+      <FeedsNav setData={setData} data={data}/>
+      <CardsContainer setData={setData} data={data}/>
     </div>
   )
 }

@@ -16,6 +16,7 @@ userRouter.post("/login", loginHandler);
 userRouter.get("/get", auth, getUserHandler);
 userRouter.post("/update", auth, updateHandler);
 userRouter.get("/delete", auth, deleteHandler);
+userRouter.get("/delete", auth, deleteHandler);
 
 
 

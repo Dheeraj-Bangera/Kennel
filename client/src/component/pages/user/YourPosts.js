@@ -1,64 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 const YourPosts = () => {
   // Dummy data
-  const dummyPosts = [
-    {
-      id: 2,
-      animal: "cat",
-      animal_name: "whiskers",
-      gender: "male",
-      image: "https://cdn.pixabay.com/photo/2024/02/28/07/42/european-shorthair-8601492_1280.jpg",
-      description: "This is a male cat named whiskers, he is playful and loves to chase toys.",
-      breed: "Domestic Shorthair",
-      address: "Sector 15, Gurgaon",
-      city: "Gurgaon",
-    },
-    {
-      id: 3,
-      animal: "dog",
-      animal_name: "buddy",
-      gender: "male",
-      image: "https://i.pinimg.com/736x/54/36/95/54369563e20e94dcab5fc7f40cf7e8d6.jpg",
-      description: "This is a male dog named buddy, he is friendly and enjoys playing fetch.",
-      breed: "Pomeranian",
-      address: "Koramangala, Bangalore",
-      city: "Bangalore",
-    },
-    {
-      id: 4,
-      animal: "rabbit",
-      animal_name: "cotton",
-      gender: "female",
-      image: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT1Zo9USSzvn7sWI0jPPH7j4mfetlETM6pC8RvGZpRrhSzEoKnX",
-      description: "This is a female rabbit named cotton, she is fluffy and loves to hop around.",
-      breed: "Netherland Dwarf",
-      address: "Viman Nagar, Pune",
-      city: "Pune",
-    },
-    {
-      id: 5,
-      animal: "dog",
-      animal_name: "rocky",
-      gender: "male",
-      image: "https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/30/pembroke-welsh-corgi.jpg?crop=1xw:0.9997114829774957xh;center,top&resize=980:*",
-      description: "This is a male dog named rocky, he is adventurous and loves exploring outdoors.",
-      breed: "Pug",
-      address: "Indiranagar, Bangalore",
-      city: "Bangalore",
-    },
-  ];
-
-  const [posts, setPosts] = useState([]);
+  const [data, setData] = useState(null)
+ 
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Simulate a delay for fetching data
-    setTimeout(() => {
-      setPosts(dummyPosts);
+  const fetchUserData = async () => {
+    try {
+      
+      const response = await axios.get(`http://localhost:8080/posts/getMypost`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      console.log("lknkdnalnva",response.data);
+      setData(response.data.posts)
       setLoading(false);
-    }, 1000); // 1 second delay for demo purposes
+    } catch (error) {
+      console.error("Error fetching user data", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
   }, []);
 
   return (
@@ -67,8 +34,8 @@ const YourPosts = () => {
         <p className="text-xl">Loading...</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {posts.length > 0 ? (
-            posts.map((post) => (
+          {data.length > 0 ? (
+            data.map((post) => (
               <motion.div
                 key={post.id}
                 className="relative bg-white shadow-lg p-4 rounded-xl overflow-hidden"

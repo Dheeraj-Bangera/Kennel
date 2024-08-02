@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLoading } from '../../../../redux/reducers/rootSlice';
 import Loader from "../../../../component/Loader";
 
-function CardsContainer() {
-  const [data, setData] = useState([]);
+function CardsContainer({setData,data}) {
+  
   const { loading } = useSelector((state) => state.root);
   const dispatch = useDispatch();
 
@@ -28,6 +28,7 @@ function CardsContainer() {
   };
 
   useEffect(() => {
+    if(!data)
     fetchAllPosts();
   }, []);
 
@@ -36,7 +37,7 @@ function CardsContainer() {
   ) : (
     <div className="container">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 justify-center">
-        {data.map((item) => (
+        {data && data.map((item) => (
           <Card
             key={item._id}
             id={item._id}

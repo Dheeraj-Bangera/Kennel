@@ -1,7 +1,7 @@
 import React from "react";
 
 import Work from "./Work";
-import Card from "./Card";
+import Card from "./card";
 
 import dog from "../../../assets/dog.png";
 import cat from "../../../assets/cat.png";
