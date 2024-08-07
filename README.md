@@ -1,6 +1,6 @@
-# Kennel: A Pet Adoption Platform (Live)
+# Kennel: A Pet Adoption Platform
 
-Kennel is a live pet adoption platform that connects loving homes with wonderful animals in need. Built with a focus on user experience and streamlined adoption processes, Kennel empowers users to find their perfect furry friend.
+Kennel is a  pet adoption platform that connects loving homes with wonderful animals in need. Built with a focus on user experience and streamlined adoption processes, Kennel empowers users to find their perfect furry friend.
 
 ## Tech Stack
 - **Frontend**: React.js, Tailwind CSS, Shadcn
