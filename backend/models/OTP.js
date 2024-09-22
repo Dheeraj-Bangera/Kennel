@@ -3,18 +3,18 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const mailSender= require("../utils/mailsender.js")
 const OTPSchema = new mongoose.Schema({
-  email:{
-    type:String,
-    required:true,
+  email: {
+    type: String,
+    required: true,
   },
-  otp:{
-    type:Number,
-    required:true
+  otp: {
+    type: Number,
+    required: true,
   },
   createdAt: { 
     type: Date,
-    default: Date.now(),
-    expires:2*60
+    default: Date.now,  // Set the default to a function to get the correct creation time
+    expires: 2 * 60,   // 2 minutes expiration
   },
 });
 async function otpSender(email,otp){
